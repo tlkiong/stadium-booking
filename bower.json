@@ -1,0 +1,31 @@
+{
+  "name": "Stadium Booking Application (fe)",
+  "version": "1.0.0",
+  "homepage": "https://github.com/tlkiong/stadium_booking_app_fe",
+  "authors": [
+    "Kiong <kiong90@gmail.com>"
+  ],
+  "description": "The frontend application for booking stadium resources. Primarily the main use of the field. The use case being used here will be a cricket stadium",
+  "main": "www/index.html",
+  "moduleType": [],
+  "keywords": [
+    "Stadium Booking App"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "lib/",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "angular": "~1.4.7",
+    "angular-animate": "~1.4.7",
+    "angular-ui-router": "~0.2.15",
+    "angular-sanitize": "~1.4.7",
+    "angular-touch": "~1.4.7"
+  }
+}
