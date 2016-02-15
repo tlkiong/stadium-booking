@@ -1,5 +1,5 @@
 {
-  "name": "Stadium Booking Application (fe)",
+  "name": "stadium-booking-app",
   "version": "1.0.0",
   "description": "The frontend application for booking stadium resources. Primarily the main use of the field. The use case being used here will be a cricket stadium",
   "main": "index.html",
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/tlkiong/zzzzz#readme",
   "devDependencies": {
+    "angular-ui-bootstrap": "^1.1.2",
     "bower": "^1.6.5",
     "gulp": "^3.9.0",
     "gulp-angular-filesort": "^1.1.1",
