@@ -5,6 +5,7 @@
 			'ngSanitize',
 			'ngTouch',
 			'ngAnimate',
-			'ui.router'
+			'ui.router',
+			'ui.bootstrap'
 		]);
 })();
