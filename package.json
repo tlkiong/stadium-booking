@@ -23,7 +23,6 @@
   },
   "homepage": "https://github.com/tlkiong/zzzzz#readme",
   "devDependencies": {
-    "angular-ui-bootstrap": "^1.1.2",
     "bower": "^1.6.5",
     "gulp": "^3.9.0",
     "gulp-angular-filesort": "^1.1.1",

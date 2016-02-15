@@ -27,6 +27,7 @@
     "angular-ui-router": "~0.2.15",
     "angular-sanitize": "~1.4.7",
     "angular-touch": "~1.4.7",
-    "firebase": "^2.4.0"
+    "firebase": "^2.4.0",
+    "angular-ui-bootstrap": "^1.1.2"
   }
 }
