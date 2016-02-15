@@ -18,10 +18,6 @@
         var cmnSvc = commonService;
 
         /* ======================================== Public Methods ========================================= */
-        function createUserProfile(userData) {
-
-        }
-
         function createSimpleLoginUser(userData) {
             var deferred = cmnSvc.$q.defer();
 
@@ -34,8 +30,12 @@
                         deferred.reject(error);
                     } else {
                         userData.uid = userVal.uid;
-                        createUserProfile(userData);
-                        simpleLogin(userData);
+                        createUserProfile(userData).then(function(rs) {
+                            simpleLogin(userData);
+                        }, function (err){
+
+                        });
+                        
                     }
                 });
             })
@@ -44,6 +44,8 @@
         }
 
         function simpleLogin(userData) {
+            var deferred = cmnSvc.$q.defer();
+
             getFirebaseRef().then(function(rs) {
                 rs.authWithPassword({
                     email: userData.emailAdd,
@@ -57,7 +59,9 @@
                 }, {
                     remember: "sessionOnly"
                 });
-            })
+            });
+
+            return deferred.promise;
         }
 
         function getFirebaseRef(path) {
@@ -72,6 +76,24 @@
             return deferred.promise;
         }
         /* ======================================== Private Methods ======================================== */
+        function createUserProfile(userData) {
+            var deferred = cmnSvc.$q.defer();
+
+            getFirebaseRef('users/' + userData.uid).then(function(rs) {
+                rs.set({
+                    emailAdd: userData.emailAdd
+                }, function(error) {
+                    if (error) {
+                        deferred.reject(error);
+                    } else {
+                        deferred.resolve('user created successfully');
+                    }
+                });
+            })
+
+            return deferred.promise;
+        }
+
         function init() {
 
         }
