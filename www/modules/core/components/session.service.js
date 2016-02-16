@@ -5,9 +5,9 @@
     angular.module('Core')
         .service('sessionService', sessionService);
 
-    sessionService.$inject = [];
+    sessionService.$inject = ['$state'];
 
-    function sessionService() {
+    function sessionService($state) {
         var service = this;
 
         /* ======================================== Var ==================================================== */

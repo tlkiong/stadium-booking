@@ -1,0 +1,12 @@
+.rootContainer {
+	.navBar {
+		border: 1px solid black;
+		background-color: red;
+		.logoContainer {
+			width: 70%;
+		}
+		.btnContainer {
+			width: 30%;
+		}
+	}
+}

@@ -6,6 +6,6 @@
 			'ngTouch',
 			'ngAnimate',
 			'ui.router',
-			'ui.bootstrap'
+			'foundation'
 		]);
 })();

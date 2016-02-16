@@ -1,14 +1,14 @@
 (function() {
     'use strict';
     
-    angular.module('Sample')
-        .controller('sampleController', sampleController);
+    angular.module('Root')
+        .controller('rootController', rootController);
 
-    sampleController.$inject = ['commonService'];
+    rootController.$inject = ['$state', 'commonService', 'sessionService'];
 
-    function sampleController(commonService) {
+    function rootController($state, commonService, sessionService) {
         var vm = this;
-
+        vm.goToPage = goToPage;
         /* ======================================== Var ==================================================== */
         vm.misc = {};
 
@@ -17,7 +17,9 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
-
+        function goToPage(){
+            $state.go('root.login');
+        }
         /* ======================================== Private Methods ======================================== */
         function init() {
             

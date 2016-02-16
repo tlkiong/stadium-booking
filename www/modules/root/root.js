@@ -1,15 +1,16 @@
 (function () {
     'use strict';
     
-	angular.module("Sample", [])
+	angular.module("Root", [])
 		.config(function ($stateProvider) {
 			$stateProvider
-				.state('sample', {
+				.state('root', {
+                    abstract: true,
                     url: '/',
                     views: {
                         'main': {
-                            templateUrl: './modules/sample/sample.html',
-                            controller: 'sampleController',
+                            templateUrl: './modules/root/root.html',
+                            controller: 'rootController',
                             controllerAs: 'vm'
                         }
                     }
