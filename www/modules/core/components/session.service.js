@@ -5,9 +5,9 @@
     angular.module('Core')
         .service('sessionService', sessionService);
 
-    sessionService.$inject = ['firebaseService'];
+    sessionService.$inject = [];
 
-    function sessionService(firebaseService) {
+    function sessionService() {
         var service = this;
 
         /* ======================================== Var ==================================================== */
@@ -18,8 +18,6 @@
         };
 
         /* ======================================== Services =============================================== */
-        var fbaseSvc = firebaseService;
-
 
         /* ======================================== Public Methods ========================================= */
 
