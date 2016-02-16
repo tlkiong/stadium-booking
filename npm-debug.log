@@ -1,0 +1,136 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'c:\\Program Files\\nodejs\\node.exe',
+1 verbose cli   'c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@2.11.2
+3 info using node@v0.12.5
+4 verbose readDependencies loading dependencies from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\package.json
+5 verbose install where, deps [ 'c:\\Users\\Kiong Kiong\\Desktop\\Projects\\Stadium Booking App',
+5 verbose install   [ 'bower',
+5 verbose install     'gulp',
+5 verbose install     'gulp-angular-filesort',
+5 verbose install     'gulp-bower',
+5 verbose install     'gulp-connect',
+5 verbose install     'gulp-inject',
+5 verbose install     'gulp-ngdocs',
+5 verbose install     'gulp-open',
+5 verbose install     'gulp-rename',
+5 verbose install     'gulp-sass',
+5 verbose install     'gulp-watch',
+5 verbose install     'http-server',
+5 verbose install     'main-bower-files',
+5 verbose install     'merge-stream',
+5 verbose install     'run-sequence' ] ]
+6 verbose install where, peers [ 'c:\\Users\\Kiong Kiong\\Desktop\\Projects\\Stadium Booking App',
+6 verbose install   [] ]
+7 verbose installManyTop reading for lifecycle c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\package.json
+8 info preinstall stadium-booking-app@1.0.0
+9 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\bower\package.json
+10 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp\package.json
+11 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-angular-filesort\package.json
+12 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-bower\package.json
+13 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-connect\package.json
+14 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-inject\package.json
+15 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-ngdocs\package.json
+16 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-open\package.json
+17 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-rename\package.json
+18 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-sass\package.json
+19 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-watch\package.json
+20 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\http-server\package.json
+21 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\main-bower-files\package.json
+22 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\merge-stream\package.json
+23 verbose installManyTop reading scoped package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\run-sequence\package.json
+24 info package.json gulp-inject@3.0.0 No license field.
+25 info package.json gulp-rename@1.2.2 No license field.
+26 verbose readDependencies loading dependencies from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\package.json
+27 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\bower\package.json
+28 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp\package.json
+29 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-angular-filesort\package.json
+30 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-bower\package.json
+31 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-connect\package.json
+32 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-inject\package.json
+33 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-ngdocs\package.json
+34 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-open\package.json
+35 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-rename\package.json
+36 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-sass\package.json
+37 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\gulp-watch\package.json
+38 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\http-server\package.json
+39 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\main-bower-files\package.json
+40 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\merge-stream\package.json
+41 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\run-sequence\package.json
+42 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\.bin\bower\package.json
+43 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\.bin\bower.cmd\package.json
+44 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\.bin\gulp\package.json
+45 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\.bin\gulp.cmd\package.json
+46 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\.bin\hs\package.json
+47 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\.bin\hs.cmd\package.json
+48 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\.bin\http-server\package.json
+49 verbose targetResolver reading package data from c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App\node_modules\.bin\http-server.cmd\package.json
+50 verbose already installed skipping gulp-angular-filesort@^1.1.1 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+51 verbose already installed skipping gulp-bower@0.0.10 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+52 verbose already installed skipping gulp-connect@^2.2.0 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+53 verbose already installed skipping gulp-inject@^3.0.0 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+54 verbose already installed skipping gulp-ngdocs@^0.2.13 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+55 verbose already installed skipping gulp-open@^1.0.0 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+56 verbose already installed skipping gulp-rename@^1.2.2 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+57 verbose already installed skipping gulp-sass@^2.0.4 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+58 verbose already installed skipping gulp-watch@^4.3.5 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+59 verbose already installed skipping http-server@^0.8.5 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+60 verbose already installed skipping main-bower-files@^2.9.0 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+61 verbose already installed skipping merge-stream@^1.0.0 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+62 verbose already installed skipping run-sequence@^1.1.4 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+63 verbose already installed skipping bower@^1.6.5 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+64 verbose already installed skipping gulp@^3.9.0 c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+65 silly install resolved []
+66 info build c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+67 info linkStuff stadium-booking-app@1.0.0
+68 silly linkStuff stadium-booking-app@1.0.0 has c:\Users\Kiong Kiong\Desktop\Projects as its parent node_modules
+69 verbose linkBins stadium-booking-app@1.0.0
+70 verbose linkMans stadium-booking-app@1.0.0
+71 verbose rebuildBundles stadium-booking-app@1.0.0
+72 verbose rebuildBundles [ '.bin',
+72 verbose rebuildBundles   'bower',
+72 verbose rebuildBundles   'gulp',
+72 verbose rebuildBundles   'gulp-angular-filesort',
+72 verbose rebuildBundles   'gulp-bower',
+72 verbose rebuildBundles   'gulp-connect',
+72 verbose rebuildBundles   'gulp-inject',
+72 verbose rebuildBundles   'gulp-ngdocs',
+72 verbose rebuildBundles   'gulp-open',
+72 verbose rebuildBundles   'gulp-rename',
+72 verbose rebuildBundles   'gulp-sass',
+72 verbose rebuildBundles   'gulp-watch',
+72 verbose rebuildBundles   'http-server',
+72 verbose rebuildBundles   'main-bower-files',
+72 verbose rebuildBundles   'merge-stream',
+72 verbose rebuildBundles   'run-sequence' ]
+73 info install stadium-booking-app@1.0.0
+74 info postinstall stadium-booking-app@1.0.0
+75 verbose unsafe-perm in lifecycle true
+76 info stadium-booking-app@1.0.0 Failed to exec postinstall script
+77 verbose stack Error: stadium-booking-app@1.0.0 postinstall: `gulp setup`
+77 verbose stack Exit status 1
+77 verbose stack     at EventEmitter.<anonymous> (c:\Program Files\nodejs\node_modules\npm\lib\utils\lifecycle.js:213:16)
+77 verbose stack     at EventEmitter.emit (events.js:110:17)
+77 verbose stack     at ChildProcess.<anonymous> (c:\Program Files\nodejs\node_modules\npm\lib\utils\spawn.js:24:14)
+77 verbose stack     at ChildProcess.emit (events.js:110:17)
+77 verbose stack     at maybeClose (child_process.js:1015:16)
+77 verbose stack     at Process.ChildProcess._handle.onexit (child_process.js:1087:5)
+78 verbose pkgid stadium-booking-app@1.0.0
+79 verbose cwd c:\Users\Kiong Kiong\Desktop\Projects\Stadium Booking App
+80 error Windows_NT 6.3.9600
+81 error argv "c:\\Program Files\\nodejs\\node.exe" "c:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+82 error node v0.12.5
+83 error npm  v2.11.2
+84 error code ELIFECYCLE
+85 error stadium-booking-app@1.0.0 postinstall: `gulp setup`
+85 error Exit status 1
+86 error Failed at the stadium-booking-app@1.0.0 postinstall script 'gulp setup'.
+86 error This is most likely a problem with the stadium-booking-app package,
+86 error not with npm itself.
+86 error Tell the author that this fails on your system:
+86 error     gulp setup
+86 error You can get their info via:
+86 error     npm owner ls stadium-booking-app
+86 error There is likely additional logging output above.
+87 verbose exit [ 1, true ]
