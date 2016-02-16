@@ -5,11 +5,14 @@
     angular.module('Core')
         .service('firebaseService', firebaseService);
 
-    firebaseService.$inject = [];
+    firebaseService.$inject = ['commonService'];
 
-    function firebaseService('commonService') {
+    function firebaseService(commonService) {
         var service = this;
         service.getFirebaseRef = getFirebaseRef;
+        service.simpleLogin = simpleLogin;
+        service.createSimpleLoginUser = createSimpleLoginUser;
+        service.isLoggedInToFirebase = isLoggedInToFirebase;
 
         /* ======================================== Var ==================================================== */
         var firebaseUrl = 'https://stadium-booking.firebaseio.com/';
@@ -18,6 +21,21 @@
         var cmnSvc = commonService;
 
         /* ======================================== Public Methods ========================================= */
+        function isLoggedInToFirebase(){
+            var deferred = cmnSvc.$q.defer();
+
+            getFirebaseRef().then(function(rs) {
+                var authData = rs.getAuth()
+                if (authData) {
+                    deferred.resolve(authData); // Is logged in
+                } else {
+                    deferred.reject(); // Is not logged in
+                }
+            })
+
+            return deferred.promise;
+        }
+
         function createSimpleLoginUser(userData) {
             var deferred = cmnSvc.$q.defer();
 
@@ -81,7 +99,9 @@
 
             getFirebaseRef('users/' + userData.uid).then(function(rs) {
                 rs.set({
-                    emailAdd: userData.emailAdd
+                    emailAdd: userData.emailAdd,
+                    role: userData.role,
+                    fullName: userData.fullName
                 }, function(error) {
                     if (error) {
                         deferred.reject(error);
