@@ -23,7 +23,6 @@
 
         /* ======================================== Public Methods ========================================= */
         function simpleLogin() {
-            console.log('scope: ',scope.loginForm);
             if((vm.misc.authData.emailAdd === undefined || vm.misc.authData.emailAdd === null || vm.misc.authData.emailAdd == '')
                 && (vm.misc.authData.password === undefined || vm.misc.authData.password === null || vm.misc.authData.password == '')){
                 alert('Please input both your email address & password');
@@ -37,9 +36,10 @@
                 }
 
                 var userData = {};
-                angular.copy(vm.misc.authData, userData)
+                angular.copy(vm.misc.authData, userData);
+                cmnSvc.resetForm(scope.loginForm, vm.misc.authData);
                 fbaseSvc.simpleLogin(userData).then(function(rs){
-                    console.log(rs);
+                    // console.log(rs);
                     // Go to page
                 }, function (err){
 
