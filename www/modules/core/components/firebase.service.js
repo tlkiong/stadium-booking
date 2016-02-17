@@ -121,7 +121,8 @@
                 rs.set({
                     emailAdd: userData.emailAdd,
                     role: userData.role,
-                    fullName: userData.fullName
+                    fullName: userData.fullName,
+                    contactNo: userData.contactNo
                 }, function(error) {
                     if (error) {
                         deferred.reject(error);
