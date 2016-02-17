@@ -5,9 +5,9 @@
     angular.module('Core')
         .service('firebaseService', firebaseService);
 
-    firebaseService.$inject = ['commonService'];
+    firebaseService.$inject = ['sessionService', 'commonService'];
 
-    function firebaseService(commonService) {
+    function firebaseService(sessionService, commonService) {
         var service = this;
         service.getFirebaseRef = getFirebaseRef;
         service.simpleLogin = simpleLogin;
@@ -19,9 +19,10 @@
 
         /* ======================================== Services =============================================== */
         var cmnSvc = commonService;
+        var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
-        function isLoggedInToFirebase(){
+        function isLoggedInToFirebase() {
             var deferred = cmnSvc.$q.defer();
 
             getFirebaseRef().then(function(rs) {
@@ -50,10 +51,10 @@
                         userData.uid = userVal.uid;
                         createUserProfile(userData).then(function(rs) {
                             simpleLogin(userData);
-                        }, function (err){
+                        }, function(err) {
 
                         });
-                        
+
                     }
                 });
             })
@@ -72,7 +73,14 @@
                     if (error) {
                         deferred.reject(error);
                     } else {
-                        getUserProfile(authData);
+                        getUserProfile(authData).then(function(rs){
+                            sessionSvc.userData.fullName = rs.fullName;
+                            sessionSvc.userData.role = rs.role;
+                            sessionSvc.userData.emailAdd = rs.emailAdd;
+                            deferred.resolve(rs);
+                        }, function (err){
+                            deferred.reject(err);
+                        })
                     }
                 }, {
                     remember: "sessionOnly"
@@ -94,6 +102,18 @@
             return deferred.promise;
         }
         /* ======================================== Private Methods ======================================== */
+        function getUserProfile(authData) {
+            var deferred = cmnSvc.$q.defer();
+
+            getFirebaseRef('users/' + authData.uid).then(function(rs) {
+                rs.once('value', function(snap) {
+                    deferred.resolve(snap.val());
+                });
+            })
+
+            return deferred.promise;
+        }
+
         function createUserProfile(userData) {
             var deferred = cmnSvc.$q.defer();
 

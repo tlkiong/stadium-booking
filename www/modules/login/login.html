@@ -1,1 +1,25 @@
-<p> HAHAHAHAHAH </p>
+<div class="loginContainer flexDown">
+    <h1 class="title">Book Now!</h1>
+    <h2 class="header">Login To Your Account</h2>
+    <form name="loginForm">
+        <div class="flexAcross">
+            <span>Email Address:</span>
+            <input name="userEmail" type="email" placeholder="Eg: xxx@gmail.com" ng-model="vm.misc.authData.emailAdd">
+        </div>
+        <div class="flexAcross">
+            <span>Password:</span>
+            <input name="userPassword" type="password" ng-model="vm.misc.authData.password">
+        </div>
+        <label>Remember my credentials?
+            <input type="checkbox" ng-model="vm.misc.savePassword">
+        </label>
+    </form>
+    <div class="flexAcross">
+        <div class="secondary button">
+            Forgot Password
+        </div>
+        <div class="button" ng-click="vm.simpleLogin()">
+            LOGIN
+        </div>
+    </div>
+</div>
