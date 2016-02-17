@@ -22,30 +22,30 @@
             var allStates = sessionSvc.allStates;
 
             $rootScope.$on('$stateChangeStart', function(evnt, toState, toParams, fromState, fromParams) {
-                // if (toState.url === '/') {
-                //     if (sessionSvc.isUserLoggedIn()) {
-                //         evnt.preventDefault();
-                //         $state.go('root.dashboard');
-                //     } else {
-                //         evnt.preventDefault();
-                //         $state.go('login');
-                //     }
-                // } else {
-                //     if (toState.role === undefined || toState.role === null || toState.role === '') {
-                //         // Redirect to homepage
-                //         evnt.preventDefault();
-                //         $state.go('login');
-                //     } else if (toState.role != 'public') {
-                //         if (!sessionSvc.isUserLoggedIn()) {
-                //             evnt.preventDefault();
-                //             $state.go('login');
-                //         } else {
-                //             if (!(sessionSvc.userData.role === allStates[toState.name])) {
-                //                 // Will redirect to a unauthorized page.
-                //             }
-                //         }
-                //     }
-                // }
+                if (toState.url === '/') {
+                    if (sessionSvc.isUserLoggedIn()) {
+                        evnt.preventDefault();
+                        $state.go('root.dashboard');
+                    } else {
+                        evnt.preventDefault();
+                        $state.go('login');
+                    }
+                } else {
+                    if (toState.role === undefined || toState.role === null || toState.role === '') {
+                        // Redirect to homepage
+                        evnt.preventDefault();
+                        $state.go('login');
+                    } else if (toState.role != 'public') {
+                        if (!sessionSvc.isUserLoggedIn()) {
+                            evnt.preventDefault();
+                            $state.go('login');
+                        } else {
+                            if (!(sessionSvc.userData.role === allStates[toState.name])) {
+                                // Will redirect to a unauthorized page.
+                            }
+                        }
+                    }
+                }
             });
         });
 })();

@@ -9,6 +9,7 @@
 
     function sessionService($state) {
         var service = this;
+        service.goToPage = goToPage;
 
         /* ======================================== Var ==================================================== */
         service.userData = {
@@ -21,7 +22,13 @@
         /* ======================================== Services =============================================== */
 
         /* ======================================== Public Methods ========================================= */
-
+        function goToPage(stateName, hasRoot) {
+            if(hasRoot) {
+                $state.go('root.'+stateName);
+            } else {
+                $state.go(stateName);
+            }
+        }
 
         /* ======================================== Private Methods ======================================== */
         function getStates() {

@@ -13,6 +13,7 @@
         service.simpleLogin = simpleLogin;
         service.createSimpleLoginUser = createSimpleLoginUser;
         service.isLoggedInToFirebase = isLoggedInToFirebase;
+        service.resetForgetPassword = resetForgetPassword;
 
         /* ======================================== Var ==================================================== */
         var firebaseUrl = 'https://stadium-booking.firebaseio.com/';
@@ -22,6 +23,30 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
+        function resetForgetPassword(emailAdd) {
+            var deferred = cmnSvc.$q.defer();
+
+            getFirebaseRef().then(function(rs) {
+                rs.resetPassword({
+                    email: emailAdd
+                }, function(error) {
+                    if (error) {
+                        switch (error.code) {
+                            case "INVALID_USER":
+                                deferred.reject("The specified user account does not exist.");
+                                break;
+                            default:
+                                deferred.reject(error);
+                        }
+                    } else {
+                        deferred.resolve("Password reset email sent successfully!");
+                    }
+                });
+            });
+
+            return deferred.promise;
+        }
+
         function isLoggedInToFirebase() {
             var deferred = cmnSvc.$q.defer();
 
@@ -73,12 +98,12 @@
                     if (error) {
                         deferred.reject(error);
                     } else {
-                        getUserProfile(authData).then(function(rs){
+                        getUserProfile(authData).then(function(rs) {
                             sessionSvc.userData.fullName = rs.fullName;
                             sessionSvc.userData.role = rs.role;
                             sessionSvc.userData.emailAdd = rs.emailAdd;
                             deferred.resolve(rs);
-                        }, function (err){
+                        }, function(err) {
                             deferred.reject(err);
                         })
                     }

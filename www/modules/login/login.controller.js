@@ -9,9 +9,12 @@
     function loginController($scope, firebaseService, commonService, sessionService) {
         var vm = this;
         vm.simpleLogin = simpleLogin;
+        vm.switchBetweenForgotPasswordNLogin = switchBetweenForgotPasswordNLogin;
+        vm.retrieveForgotPassword = retrieveForgotPassword;
 
         /* ======================================== Var ==================================================== */
         vm.misc = {
+            state: 'login',
             authData: {}
         };
 
@@ -22,6 +25,25 @@
         var scope = $scope;
 
         /* ======================================== Public Methods ========================================= */
+        function retrieveForgotPassword() {
+            var userData = {};
+            angular.copy(vm.misc.forgotPassword, userData);
+            cmnSvc.resetForm(scope.forgotPasswordForm, vm.misc.authData);
+            fbaseSvc.resetForgetPassword(userData.emailAdd).then(function(rs){
+                console.log(rs);
+            }, function(err){
+                console.log('err: ',err);
+            });
+        }
+
+        function switchBetweenForgotPasswordNLogin() {
+            if(vm.misc.state == 'forgotPassword') {
+                vm.misc.state = 'login';
+            } else if (vm.misc.state == 'login') {
+                vm.misc.state = 'forgotPassword';
+            }
+        }
+
         function simpleLogin() {
             if((vm.misc.authData.emailAdd === undefined || vm.misc.authData.emailAdd === null || vm.misc.authData.emailAdd == '')
                 && (vm.misc.authData.password === undefined || vm.misc.authData.password === null || vm.misc.authData.password == '')){
@@ -39,7 +61,7 @@
                 angular.copy(vm.misc.authData, userData);
                 cmnSvc.resetForm(scope.loginForm, vm.misc.authData);
                 fbaseSvc.simpleLogin(userData).then(function(rs){
-                    // console.log(rs);
+                    console.log(rs);
                     // Go to page
                 }, function (err){
 

@@ -1,25 +1,44 @@
 <div class="loginContainer flexDown">
-    <h1 class="title">Book Now!</h1>
-    <h2 class="header">Login To Your Account</h2>
-    <form name="loginForm">
-        <div class="flexAcross">
-            <span>Email Address:</span>
-            <input name="userEmail" type="email" placeholder="Eg: xxx@gmail.com" ng-model="vm.misc.authData.emailAdd">
-        </div>
-        <div class="flexAcross">
-            <span>Password:</span>
-            <input name="userPassword" type="password" ng-model="vm.misc.authData.password">
-        </div>
-        <label>Remember my credentials?
-            <input type="checkbox" ng-model="vm.misc.savePassword">
-        </label>
-    </form>
-    <div class="flexAcross">
-        <div class="secondary button">
-            Forgot Password
-        </div>
-        <div class="button" ng-click="vm.simpleLogin()">
-            LOGIN
-        </div>
-    </div>
+    <section ng-show="vm.misc.state == 'login'">
+    	<h1 class="">Book Now!</h1>
+	    <h2 class="">Login To Your Account</h2>
+	    <form name="loginForm">
+	        <div class="flexAcross">
+	            <span>Email Address:</span>
+	            <input name="userEmail" type="email" placeholder="Eg: xxx@gmail.com" ng-model="vm.misc.authData.emailAdd">
+	        </div>
+	        <div class="flexAcross">
+	            <span>Password:</span>
+	            <input name="userPassword" type="password" ng-model="vm.misc.authData.password">
+	        </div>
+	        <label>Remember my credentials?
+	            <input type="checkbox" ng-model="vm.misc.savePassword">
+	        </label>
+	    </form>
+	    <div class="flexAcross">
+	        <div class="secondary button" ng-click="vm.switchBetweenForgotPasswordNLogin()">
+	            Forgot Password
+	        </div>
+	        <div class="button" ng-click="vm.simpleLogin()">
+	            LOGIN
+	        </div>
+	    </div>
+    </section>
+    <section ng-show="vm.misc.state == 'forgotPassword'">
+    	<h1 class="">Forgot Password</h1>
+    	<form name="forgotPasswordForm">
+    		<div class="flexAcross">
+	            <span>Email Address:</span>
+	            <input name="userEmail" type="email" placeholder="Eg: xxx@gmail.com" ng-model="vm.misc.forgotPassword.emailAdd">
+	        </div>
+    	</form>
+    	<div class="flexAcross">
+	        <div class="secondary button" ng-click="vm.switchBetweenForgotPasswordNLogin()">
+	            Back To Login
+	        </div>
+	        <div class="button" ng-click="vm.retrieveForgotPassword()">
+	            Retrieve Forgot Password
+	        </div>
+	    </div>
+    </section>
 </div>
