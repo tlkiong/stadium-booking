@@ -5,13 +5,14 @@
     angular.module('Core')
         .service('commonService', commonService);
 
-    commonService.$inject = ['sessionService', '$http', '$q', '$timeout', '$window'];
+    commonService.$inject = ['$state', 'sessionService', '$http', '$q', '$timeout', '$window'];
 
-    function commonService(sessionService, $http, $q, $timeout, $window) {
+    function commonService($state, sessionService, $http, $q, $timeout, $window) {
         var service = this;
         service.isEmpty = isEmpty;
         service.resetForm = resetForm;
         service.http = http;
+        service.goToPage = goToPage;
 
         /* ======================================== Var ==================================================== */
         service.baseUrl = '';
@@ -34,6 +35,14 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
+        function goToPage(stateName, hasRoot) {
+            if(hasRoot) {
+                $state.go('root.'+stateName);
+            } else {
+                $state.go(stateName);
+            }
+        }
+
         function http(apiObjKey, headerObj, dataObj, authToken, idOnUrl) {
             var deferred = service.$q.defer();
 

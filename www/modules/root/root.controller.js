@@ -4,11 +4,11 @@
     angular.module('Root')
         .controller('rootController', rootController);
 
-    rootController.$inject = ['$state', 'commonService', 'sessionService'];
+    rootController.$inject = ['commonService', 'sessionService'];
 
-    function rootController($state, commonService, sessionService) {
+    function rootController(commonService, sessionService) {
         var vm = this;
-        vm.goToPage = goToPage;
+        
         /* ======================================== Var ==================================================== */
         vm.misc = {};
 
@@ -17,9 +17,7 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
-        function goToPage(){
-            $state.go('root.login');
-        }
+        
         /* ======================================== Private Methods ======================================== */
         function init() {
             

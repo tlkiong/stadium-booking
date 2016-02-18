@@ -5,11 +5,10 @@
     angular.module('Core')
         .service('sessionService', sessionService);
 
-    sessionService.$inject = ['$state'];
+    sessionService.$inject = [];
 
-    function sessionService($state) {
+    function sessionService() {
         var service = this;
-        service.goToPage = goToPage;
 
         /* ======================================== Var ==================================================== */
         service.userData = {
@@ -22,13 +21,6 @@
         /* ======================================== Services =============================================== */
 
         /* ======================================== Public Methods ========================================= */
-        function goToPage(stateName, hasRoot) {
-            if(hasRoot) {
-                $state.go('root.'+stateName);
-            } else {
-                $state.go(stateName);
-            }
-        }
 
         /* ======================================== Private Methods ======================================== */
         function getStates() {
