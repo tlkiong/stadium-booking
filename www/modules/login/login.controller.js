@@ -30,9 +30,9 @@
             angular.copy(vm.misc.forgotPassword, userData);
             cmnSvc.resetForm(scope.forgotPasswordForm, vm.misc.authData);
             fbaseSvc.resetForgetPassword(userData.emailAdd).then(function(rs){
-                console.log(rs);
+                alert(rs);
             }, function(err){
-                console.log('err: ',err);
+                alert('Error! '+err);
             });
         }
 
@@ -62,9 +62,8 @@
                 cmnSvc.resetForm(scope.loginForm, vm.misc.authData);
                 fbaseSvc.simpleLogin(userData).then(function(rs){
                     cmnSvc.goToPage('profile', true)
-                    // Go to page
                 }, function (err){
-
+                    alert('Error! '+err);
                 });
             }
         }
