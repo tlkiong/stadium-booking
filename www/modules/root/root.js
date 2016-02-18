@@ -5,7 +5,6 @@
 		.config(function ($stateProvider) {
 			$stateProvider
 				.state('root', {
-                    abstract: true,
                     url: '/',
                     views: {
                         'main': {

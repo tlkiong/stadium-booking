@@ -9,8 +9,11 @@
         ])
         .config(function($locationProvider, $stateProvider, $urlRouterProvider, $compileProvider) {
             $urlRouterProvider.otherwise('login');
-        }).run(function($rootScope, $location, $state, sessionService) {
+        }).run(function(commonService, firebaseService, $rootScope, $location, $state, sessionService) {
             var sessionSvc = sessionService;
+            var fbaseSvc = firebaseService;
+            var cmnSvc = commonService;
+
             /**
              * allStates show all the states that can be accessed and the role who can access
              * Format:
@@ -23,25 +26,27 @@
 
             $rootScope.$on('$stateChangeStart', function(evnt, toState, toParams, fromState, fromParams) {
                 if (toState.url === '/') {
-                    if (sessionSvc.isUserLoggedIn()) {
+                    fbaseSvc.isLoggedInToFirebase().then(function(rs){
                         evnt.preventDefault();
-                        $state.go('root.dashboard');
-                    } else {
+                        cmnSvc.goToPage('profile', true);
+                    }, function(err){
                         evnt.preventDefault();
-                        $state.go('login');
-                    }
+                        cmnSvc.goToPage('login', true);
+                    });
                 } else {
                     if (toState.role === undefined || toState.role === null || toState.role === '') {
                         // Redirect to homepage
                         evnt.preventDefault();
-                        $state.go('login');
+                        cmnSvc.goToPage('login', true);
                     } else if (toState.role != 'public') {
                         if (!sessionSvc.isUserLoggedIn()) {
                             evnt.preventDefault();
-                            $state.go('login');
+                            cmnSvc.goToPage('login', true);
                         } else {
                             if (!(sessionSvc.userData.role === allStates[toState.name])) {
-                                // Will redirect to a unauthorized page.
+                                alert("You don't have permission to access that page!");
+                                evnt.preventDefault();
+                                cmnSvc.goToPage('login', true);
                             }
                         }
                     }
