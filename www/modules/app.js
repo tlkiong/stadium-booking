@@ -5,7 +5,8 @@
             'Core',
             'Directives',
             'Root',
-            'Login'
+            'Login',
+            'Profile'
         ])
         .config(function($locationProvider, $stateProvider, $urlRouterProvider, $compileProvider) {
             $urlRouterProvider.otherwise('login');
@@ -43,7 +44,7 @@
                             evnt.preventDefault();
                             cmnSvc.goToPage('login', true);
                         } else {
-                            if (!(sessionSvc.userData.role === allStates[toState.name])) {
+                            if (!(sessionSvc.userData.role === allStates[toState.name]) && allStates[toState.name] != 'any') {
                                 alert("You don't have permission to access that page!");
                                 evnt.preventDefault();
                                 cmnSvc.goToPage('login', true);
