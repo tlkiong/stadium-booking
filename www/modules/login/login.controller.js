@@ -60,6 +60,7 @@
                 var userData = {};
                 angular.copy(vm.misc.authData, userData);
                 fbaseSvc.simpleLogin(userData).then(function(rs){
+                    $scope.$parent.vm.startListenAuth();
                     cmnSvc.resetForm(scope.loginForm, vm.misc.authData);
                     cmnSvc.goToPage('profile', true)
                 }, function (err){

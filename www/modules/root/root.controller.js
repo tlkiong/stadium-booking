@@ -10,6 +10,7 @@
         var vm = this;
         vm.goToPage = goToPage;
         vm.signOut = signOut;
+        vm.startListenAuth = startListenAuth;
 
         /* ======================================== Var ==================================================== */
         vm.misc = {
@@ -22,12 +23,12 @@
         var fbaseSvc = firebaseService;
 
         /* ======================================== Public Methods ========================================= */
+        function startListenAuth() {
+            fbaseSvc.listenToAuth(watchLoggedInState);
+        }
+
         function signOut() {
-            fbaseSvc.logout().then(function(rs){
-
-            }, function (err){
-
-            });
+            fbaseSvc.logout();
         }
 
         function goToPage(pageName) {
@@ -42,13 +43,15 @@
                 sessionSvc.userData.isLoggedIn = true;
             } else {
                 // console.log("User is logged out");
+                fbaseSvc.stopListenToAuth(function() {});
                 vm.misc.isLoggedIn = false;
                 sessionSvc.resetUserData();
+                cmnSvc.goToPage(undefined, undefined, true);
             }
         }
 
         function init() {
-            fbaseSvc.listenToAuth(watchLoggedInState);
+            
         }
 
         init();

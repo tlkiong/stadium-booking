@@ -5,14 +5,15 @@
     angular.module('Core')
         .service('commonService', commonService);
 
-    commonService.$inject = ['$state', 'sessionService', '$http', '$q', '$timeout', '$window'];
+    commonService.$inject = ['$stateParams', '$state', 'sessionService', '$http', '$q', '$timeout', '$window'];
 
-    function commonService($state, sessionService, $http, $q, $timeout, $window) {
+    function commonService($stateParams, $state, sessionService, $http, $q, $timeout, $window) {
         var service = this;
         service.isEmpty = isEmpty;
         service.resetForm = resetForm;
         service.http = http;
         service.goToPage = goToPage;
+        service.getCurrentState = getCurrentState;
 
         /* ======================================== Var ==================================================== */
         service.baseUrl = '';
@@ -21,25 +22,35 @@
         service.$window = $window;
 
         var apiObj = {
-        	/*  Example:
-        	
-        		name: {
-					methodType: 'POST' / 'GET' / 'PUT' / 'DELETE',
-					url: '....',
+            /*  Example:
+            
+                name: {
+                    methodType: 'POST' / 'GET' / 'PUT' / 'DELETE',
+                    url: '....',
                     nextUrlPart: 'get_paired_vehicles' <== This is: http://url/id/nextUrlPart
-        		}
-        	 */
+                }
+             */
         }
 
         /* ======================================== Services =============================================== */
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
-        function goToPage(stateName, hasRoot) {
-            if(hasRoot) {
-                $state.go('root.'+stateName);
+        function getCurrentState() {
+            return $state.current;
+        }
+
+        function goToPage(stateName, hasRoot, toReload) {
+            if((stateName === undefined || stateName === null)&&(hasRoot === undefined || hasRoot === null)) {
+                if (toReload) {
+                    $state.reload();
+                }
             } else {
-                $state.go(stateName);
+                if (hasRoot) {
+                    $state.go('root.' + stateName);
+                } else {
+                    $state.go(stateName);
+                }
             }
         }
 
@@ -49,35 +60,35 @@
             var headerObject = (headerObj === undefined || headerObj === null) ? {} : headerObj;
             var dataObject = (dataObj === undefined || dataObj === null) ? {} : dataObj;
 
-            if(authToken === true) {
+            if (authToken === true) {
                 // headerObject['Authorization'] = 'Token token='+sessionSvc.userData.access_token
             }
 
-            if(idOnUrl === undefined || idOnUrl === null) {
+            if (idOnUrl === undefined || idOnUrl === null) {
                 idOnUrl = '';
             } else {
-                idOnUrl = '/'+idOnUrl;
+                idOnUrl = '/' + idOnUrl;
             }
 
             var nextUrl = '';
-            if(!(apiObj[apiObjKey].nextUrlPart === undefined || apiObj[apiObjKey].nextUrlPart === null)) {
-                nextUrl = '/'+apiObj[apiObjKey].nextUrlPart;
+            if (!(apiObj[apiObjKey].nextUrlPart === undefined || apiObj[apiObjKey].nextUrlPart === null)) {
+                nextUrl = '/' + apiObj[apiObjKey].nextUrlPart;
             }
 
-            if(!isEmpty(dataObj) && (!(dataObj.image_url === undefined || dataObj.image_url === null))) {
-                dataObj.image_url = dataObj.image_url.$ngfDataUrl.substring(dataObj.image_url.$ngfDataUrl.indexOf(',')+1);
+            if (!isEmpty(dataObj) && (!(dataObj.image_url === undefined || dataObj.image_url === null))) {
+                dataObj.image_url = dataObj.image_url.$ngfDataUrl.substring(dataObj.image_url.$ngfDataUrl.indexOf(',') + 1);
             }
 
             // If HTTP GET request, API params to be set to "params" key in $http request object
             // If HTTP POST/PUT request, API params to be set to "data" key in $http request object
-            if(apiObj[apiObjKey].methodType.toLowerCase() == 'get') {
+            if (apiObj[apiObjKey].methodType.toLowerCase() == 'get') {
                 $http({
                     method: apiObj[apiObjKey].methodType,
                     url: service.baseUrl + apiObj[apiObjKey].url + idOnUrl + nextUrl,
                     headers: headerObject,
-                    params  : dataObject
+                    params: dataObject
                 }).then(function(rs) {
-                    if(rs.data.status === undefined || rs.data.status === null) {
+                    if (rs.data.status === undefined || rs.data.status === null) {
                         deferred.reject(rs.data);
                     } else {
                         if (rs.data.status.toLowerCase() === 'ok') {
@@ -87,17 +98,16 @@
                         }
                     }
                 }, function(err) { // Non 200 response
-                    
+
                 });
-            }
-            else {
+            } else {
                 $http({
                     method: apiObj[apiObjKey].methodType,
                     url: service.baseUrl + apiObj[apiObjKey].url + idOnUrl + nextUrl,
                     headers: headerObject,
                     data: dataObject
                 }).then(function(rs) {
-                    if(rs.data.status === undefined || rs.data.status === null) {
+                    if (rs.data.status === undefined || rs.data.status === null) {
                         deferred.reject(rs.data);
                     } else {
                         if (rs.data.status.toLowerCase() === 'ok') {
@@ -107,7 +117,7 @@
                         }
                     }
                 }, function(err) { // Non 200 response
-                    
+
                 });
             }
 

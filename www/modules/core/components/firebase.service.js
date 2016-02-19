@@ -16,6 +16,7 @@
         service.resetForgetPassword = resetForgetPassword;
         service.logout = logout;
         service.listenToAuth = listenToAuth;
+        service.stopListenToAuth = stopListenToAuth;
 
         /* ======================================== Var ==================================================== */
         var firebaseUrl = 'https://stadium-booking.firebaseio.com/';
@@ -25,6 +26,12 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
+        function stopListenToAuth(callBackFn) {
+            getFirebaseRef().then(function(rs){
+                rs.offAuth(callBackFn);
+            });
+        }
+
         function listenToAuth(callBackFn) {
             getFirebaseRef().then(function(rs){
                 rs.onAuth(callBackFn);
@@ -32,14 +39,9 @@
         }
 
         function logout() {
-            var deferred = cmnSvc.$q.defer();
-
             getFirebaseRef().then(function(rs){
-                var abc = rs.unauth();;
-                console.log('abc: ',abc);
+                var abc = rs.unauth();
             });
-
-            return deferred.promise;
         }
 
         function resetForgetPassword(emailAdd) {
@@ -121,6 +123,7 @@
                             sessionSvc.userData.fullName = rs.fullName;
                             sessionSvc.userData.role = rs.role;
                             sessionSvc.userData.emailAdd = rs.emailAdd;
+                            sessionSvc.userData.isLoggedIn = true;
                             deferred.resolve(rs);
                         }, function(err) {
                             deferred.reject(err);
