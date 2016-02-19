@@ -10,6 +10,7 @@
     function firebaseService(sessionService, commonService) {
         var service = this;
         service.getFirebaseRef = getFirebaseRef;
+        service.getUserProfile = getUserProfile;
         service.simpleLogin = simpleLogin;
         service.createSimpleLoginUser = createSimpleLoginUser;
         service.isLoggedInToFirebase = isLoggedInToFirebase;
@@ -119,11 +120,13 @@
                     if (error) {
                         deferred.reject(error);
                     } else {
-                        getUserProfile(authData).then(function(rs) {
+                        service.getUserProfile(authData).then(function(rs) {
+                            sessionSvc.userData.uid = authData.uid;
                             sessionSvc.userData.fullName = rs.fullName;
                             sessionSvc.userData.role = rs.role;
                             sessionSvc.userData.emailAdd = rs.emailAdd;
                             sessionSvc.userData.isLoggedIn = true;
+                            sessionSvc.saveSession();
                             deferred.resolve(rs);
                         }, function(err) {
                             deferred.reject(err);
@@ -133,6 +136,18 @@
                     remember: "sessionOnly"
                 });
             });
+
+            return deferred.promise;
+        }
+
+        function getUserProfile(authData) {
+            var deferred = cmnSvc.$q.defer();
+
+            getFirebaseRef('users/' + authData.uid).then(function(rs) {
+                rs.once('value', function(snap) {
+                    deferred.resolve(snap.val());
+                });
+            })
 
             return deferred.promise;
         }
@@ -148,19 +163,8 @@
 
             return deferred.promise;
         }
+
         /* ======================================== Private Methods ======================================== */
-        function getUserProfile(authData) {
-            var deferred = cmnSvc.$q.defer();
-
-            getFirebaseRef('users/' + authData.uid).then(function(rs) {
-                rs.once('value', function(snap) {
-                    deferred.resolve(snap.val());
-                });
-            })
-
-            return deferred.promise;
-        }
-
         function createUserProfile(userData) {
             var deferred = cmnSvc.$q.defer();
 

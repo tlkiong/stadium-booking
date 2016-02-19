@@ -51,7 +51,11 @@
         }
 
         function init() {
-            
+            fbaseSvc.isLoggedInToFirebase().then(function(rs){
+                sessionSvc.loadSession();
+            }, function(err){
+                sessionSvc.clearSession();
+            });
         }
 
         init();

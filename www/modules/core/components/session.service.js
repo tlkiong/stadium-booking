@@ -11,9 +11,13 @@
         var service = this;
         service.resetUserData = resetUserData;
         service.isLoggedIn = isLoggedIn;
+        service.saveSession = saveSession;
+        service.clearSession = clearSession;
+        service.loadSession = loadSession;
 
         /* ======================================== Var ==================================================== */
         service.userData = {
+            uid: '',
             isLoggedIn: false,
             fullName: '',
             role: '',
@@ -24,6 +28,23 @@
         /* ======================================== Services =============================================== */
 
         /* ======================================== Public Methods ========================================= */
+        function loadSession() {
+            var sessionUserData = localStorage.getItem('userData');
+            if(!(sessionUserData === undefined || sessionUserData === null)) {
+                service.userData = sessionUserData;
+            }
+            
+            console.log(service.userData);
+        }
+
+        function clearSession() {
+            localStorage.removeItem('userData', service.userData);
+        }
+
+        function saveSession() {
+            localStorage.setItem('userData', service.userData);
+        }
+
         function isLoggedIn() {
             if(service.userData.isLoggedIn) {
                 return true;
@@ -34,6 +55,7 @@
 
         function resetUserData() {
             var originalUserData = {
+                uid: '',
                 isLoggedIn: false,
                 fullName: '',
                 role: '',
