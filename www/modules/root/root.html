@@ -10,6 +10,15 @@
 		    <button class="navBarBtn">
 		        FAQ
 		    </button>
+		    <button class="navBarBtn" ng-if="vm.misc.isLoggedIn" ng-click="vm.goToPage('profile')">
+		    	Go To Profile
+		    </button>
+		    <button class="navBarBtn" ng-if="vm.misc.isLoggedIn" ng-click="vm.goToPage('booking')">
+		    	Book Stadium
+		    </button>
+		    <button class="navBarBtn" ng-if="vm.misc.isLoggedIn" ng-click="vm.signOut()">
+		    	Sign Out
+		    </button>
 	    </div>
 	</div>
 	<div class="container" ui-view="body">

@@ -27,29 +27,34 @@
 
             $rootScope.$on('$stateChangeStart', function(evnt, toState, toParams, fromState, fromParams) {
                 if (toState.url === '/') {
-                    fbaseSvc.isLoggedInToFirebase().then(function(rs){
+                    if(sessionSvc.isLoggedIn()) {
                         evnt.preventDefault();
                         cmnSvc.goToPage('profile', true);
-                    }, function(err){
+                    } else {
                         evnt.preventDefault();
                         cmnSvc.goToPage('login', true);
-                    });
+                    };
+                } else if (toState.url === 'login') {
+                    if(sessionSvc.isLoggedIn()) {
+                        evnt.preventDefault();
+                        cmnSvc.goToPage('profile', true);
+                    };
                 } else {
                     if (toState.role === undefined || toState.role === null || toState.role === '') {
                         // Redirect to homepage
                         evnt.preventDefault();
                         cmnSvc.goToPage('login', true);
                     } else if (toState.role != 'public') {
-                        if (!sessionSvc.isUserLoggedIn()) {
-                            evnt.preventDefault();
-                            cmnSvc.goToPage('login', true);
-                        } else {
+                        if(sessionSvc.isLoggedIn()) {
                             if (!(sessionSvc.userData.role === allStates[toState.name]) && allStates[toState.name] != 'any') {
                                 alert("You don't have permission to access that page!");
                                 evnt.preventDefault();
                                 cmnSvc.goToPage('login', true);
                             }
-                        }
+                        } else {
+                            evnt.preventDefault();
+                            cmnSvc.goToPage('login', true);
+                        };
                     }
                 }
             });

@@ -5,13 +5,16 @@
     angular.module('Core')
         .service('sessionService', sessionService);
 
-    sessionService.$inject = [];
+    sessionService.$inject = ['$state'];
 
-    function sessionService() {
+    function sessionService($state) {
         var service = this;
+        service.resetUserData = resetUserData;
+        service.isLoggedIn = isLoggedIn;
 
         /* ======================================== Var ==================================================== */
         service.userData = {
+            isLoggedIn: false,
             fullName: '',
             role: '',
             emailAdd: ''
@@ -21,6 +24,24 @@
         /* ======================================== Services =============================================== */
 
         /* ======================================== Public Methods ========================================= */
+        function isLoggedIn() {
+            if(service.userData.isLoggedIn) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+
+        function resetUserData() {
+            var originalUserData = {
+                isLoggedIn: false,
+                fullName: '',
+                role: '',
+                emailAdd: ''
+            };
+
+            angular.copy(originalUserData, service.userData);
+        }
 
         /* ======================================== Private Methods ======================================== */
         function getStates() {

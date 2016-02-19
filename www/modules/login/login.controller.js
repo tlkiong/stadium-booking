@@ -59,8 +59,8 @@
 
                 var userData = {};
                 angular.copy(vm.misc.authData, userData);
-                cmnSvc.resetForm(scope.loginForm, vm.misc.authData);
                 fbaseSvc.simpleLogin(userData).then(function(rs){
+                    cmnSvc.resetForm(scope.loginForm, vm.misc.authData);
                     cmnSvc.goToPage('profile', true)
                 }, function (err){
                     alert('Error! '+err);
