@@ -21,3 +21,15 @@
 .reverse {
 	flex-direction: reverse;
 }
+
+.flexExpand {
+	-webkit-flex: 1 1 auto;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+}
+
+.flexShrink {
+	-webkit-flex: 0 0 auto;
+    -ms-flex: 0 0 auto;
+    flex: 0 0 auto;
+}
