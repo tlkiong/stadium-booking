@@ -1,5 +1,17 @@
-<div class="profileContainer flexDown">
-	<section class="flexAcross">
-		<span class="headeer">My Profile</span>
-	</section>
-</div>
+<section class="profileContainer flexDown">
+    <h1>My Profile</h1>
+    <span>Full Name: {{::vm.misc.userData.fullName}}</span>
+    <span>Email Address: {{::vm.misc.userData.emailAdd}}</span>
+</section>
+<hr>
+<section class="bookingListContainer flexDown" ng-if="vm.misc.userData.myBookings.length > 0">
+    <h1>My Bookings</h1>
+    <div class="card" ng-repeat="booking in vm.misc.userData.myBookings">
+        <div class="card-divider">
+            {{::booking.dateTime | date: 'fullDate'}}
+        </div>
+        <div class="card-section flexDown">
+            <p>{{::}}</p>
+        </div>
+    </div>
+</section>

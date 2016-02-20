@@ -18,6 +18,7 @@
         service.logout = logout;
         service.listenToAuth = listenToAuth;
         service.stopListenToAuth = stopListenToAuth;
+        service.getMyBookings = getMyBookings;
 
         /* ======================================== Var ==================================================== */
         var firebaseUrl = 'https://stadium-booking.firebaseio.com/';
@@ -30,6 +31,19 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
+        function getMyBookings(uid) {
+            var deferred = cmnSvc.$q.defer();
+            getFirebaseRef('users/' + uid+'/myBookings').then(function(rs) {
+                rs.once('value', function(snap) {
+                    deferred.resolve(snap.val());
+                }, function (err){
+                    deferred.reject(err);
+                });
+            });
+
+            return deferred.promise;
+        }
+
         function stopListenToAuth(callBackFn) {
             getFirebaseRef().then(function(rs) {
                 if(misc.isListeningToAuth) {
@@ -205,10 +219,10 @@
 
         function watchLoggedInState(authData) {
             if (authData) {
-                console.log("User " + authData.uid + " is logged in with " + authData.provider);
+                // console.log("User " + authData.uid + " is logged in with " + authData.provider);
                 sessionSvc.userData.isLoggedIn = true;
             } else {
-                console.log("User is logged out");
+                // console.log("User is logged out");
                 stopListenToAuth(function() {});
                 sessionSvc.resetUserData();
                 sessionSvc.clearSession();

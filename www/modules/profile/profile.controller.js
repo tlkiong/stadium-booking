@@ -11,7 +11,7 @@
 
         /* ======================================== Var ==================================================== */
         vm.misc = {
-            
+            userData: {}
         };
 
         /* ======================================== Services =============================================== */
@@ -24,7 +24,12 @@
 
         /* ======================================== Private Methods ======================================== */
         function init() {
-            
+            vm.misc.userData = sessionSvc.userData;
+            fbaseSvc.getMyBookings(vm.misc.userData.uid).then(function(rs){
+                vm.misc.userData.myBookings = rs;
+            }, function(err){
+
+            });
         }
 
         init();
