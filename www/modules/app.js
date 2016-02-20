@@ -27,34 +27,34 @@
 
             $rootScope.$on('$stateChangeStart', function(evnt, toState, toParams, fromState, fromParams) {
                 if (toState.url === '/') {
-                    if(sessionSvc.isLoggedIn()) {
+                    fbaseSvc.isLoggedInToFirebase().then(function(rs){
                         evnt.preventDefault();
                         cmnSvc.goToPage('profile', true);
-                    } else {
+                    }, function(err){
                         evnt.preventDefault();
                         cmnSvc.goToPage('login', true);
-                    };
+                    });
                 } else if (toState.url === 'login') {
-                    if(sessionSvc.isLoggedIn()) {
+                    fbaseSvc.isLoggedInToFirebase().then(function(rs){
                         evnt.preventDefault();
                         cmnSvc.goToPage('profile', true);
-                    };
+                    }); // Ignore rejected case
                 } else {
                     if (toState.role === undefined || toState.role === null || toState.role === '') {
                         // Redirect to homepage
                         evnt.preventDefault();
                         cmnSvc.goToPage('login', true);
                     } else if (toState.role != 'public') {
-                        if(sessionSvc.isLoggedIn()) {
+                        fbaseSvc.isLoggedInToFirebase().then(function(rs){
                             if (!(sessionSvc.userData.role === allStates[toState.name]) && allStates[toState.name] != 'any') {
                                 alert("You don't have permission to access that page!");
                                 evnt.preventDefault();
                                 cmnSvc.goToPage('login', true);
                             }
-                        } else {
+                        }, function(err){
                             evnt.preventDefault();
                             cmnSvc.goToPage('login', true);
-                        };
+                        });
                     }
                 }
             });

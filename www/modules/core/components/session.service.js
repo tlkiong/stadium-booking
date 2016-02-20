@@ -10,18 +10,18 @@
     function sessionService(dataService, $state) {
         var service = this;
         service.resetUserData = resetUserData;
-        service.isLoggedIn = isLoggedIn;
         service.saveSession = saveSession;
         service.clearSession = clearSession;
         service.loadSession = loadSession;
 
         /* ======================================== Var ==================================================== */
         service.userData = {
+            tokenExpiry: -1,
             uid: '',
-            isLoggedIn: false,
             fullName: '',
             role: '',
-            emailAdd: ''
+            emailAdd: '',
+            isLoggedIn: false // This is to show / hide DOM element for logged in users only
         };
         service.allStates = {}
 
@@ -30,37 +30,43 @@
 
         /* ======================================== Public Methods ========================================= */
         function loadSession() {
-            var sessionUserData = localStorage.getItem('userData');
-            if(!(sessionUserData === undefined || sessionUserData === null)) {
-                service.userData = sessionUserData;
+            service.userData = {
+                tokenExpiry: localStorage.getItem('userData.tokenExpiry'),
+                uid: localStorage.getItem('userData.uid'),
+                fullName: localStorage.getItem('userData.fullName'),
+                role: localStorage.getItem('userData.role'),
+                emailAdd: localStorage.getItem('userData.emailAdd')
+            };
+
+            if (Math.floor(Date.now() / 1000) < service.userData.tokenExpiry) {
+                service.userData.isLoggedIn = true;
             }
-            
-            console.log(service.userData);
         }
 
         function clearSession() {
-            localStorage.removeItem('userData', service.userData);
+            localStorage.removeItem('userData.uid');
+            localStorage.removeItem('userData.tokenExpiry');
+            localStorage.removeItem('userData.fullName');
+            localStorage.removeItem('userData.role');
+            localStorage.removeItem('userData.emailAdd');
         }
 
         function saveSession() {
-            localStorage.setItem('userData', service.userData);
-        }
-
-        function isLoggedIn() {
-            if(service.userData.isLoggedIn) {
-                return true;
-            } else {
-                return false;
-            }
+            localStorage.setItem('userData.uid', service.userData.uid);
+            localStorage.setItem('userData.tokenExpiry', service.userData.tokenExpiry);
+            localStorage.setItem('userData.fullName', service.userData.fullName);
+            localStorage.setItem('userData.role', service.userData.role);
+            localStorage.setItem('userData.emailAdd', service.userData.emailAdd);
         }
 
         function resetUserData() {
             var originalUserData = {
                 uid: '',
-                isLoggedIn: false,
+                tokenExpiry: -1,
                 fullName: '',
                 role: '',
-                emailAdd: ''
+                emailAdd: '',
+                isLoggedIn: false
             };
 
             angular.copy(originalUserData, service.userData);
@@ -79,6 +85,7 @@
 
         function init() {
             getStates();
+            loadSession();
         }
 
         init();

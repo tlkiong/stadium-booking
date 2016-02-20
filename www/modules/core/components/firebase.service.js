@@ -21,6 +21,9 @@
 
         /* ======================================== Var ==================================================== */
         var firebaseUrl = 'https://stadium-booking.firebaseio.com/';
+        var misc = {
+            isListeningToAuth: false
+        }
 
         /* ======================================== Services =============================================== */
         var cmnSvc = commonService;
@@ -28,19 +31,22 @@
 
         /* ======================================== Public Methods ========================================= */
         function stopListenToAuth(callBackFn) {
-            getFirebaseRef().then(function(rs){
+            getFirebaseRef().then(function(rs) {
+                if(misc.isListeningToAuth) {
+                    misc.isListeningToAuth = false;
+                }
                 rs.offAuth(callBackFn);
             });
         }
 
         function listenToAuth(callBackFn) {
-            getFirebaseRef().then(function(rs){
+            getFirebaseRef().then(function(rs) {
                 rs.onAuth(callBackFn);
             });
         }
 
         function logout() {
-            getFirebaseRef().then(function(rs){
+            getFirebaseRef().then(function(rs) {
                 var abc = rs.unauth();
             });
         }
@@ -72,14 +78,35 @@
         function isLoggedInToFirebase() {
             var deferred = cmnSvc.$q.defer();
 
-            getFirebaseRef().then(function(rs) {
-                var authData = rs.getAuth();
-                if (authData) {
-                    deferred.resolve(authData); // Is logged in
+            if (sessionSvc.userData.tokenExpiry === undefined || sessionSvc.userData.tokenExpiry === null) {
+                getFirebaseRef().then(function(rs) {
+                    var authData = rs.getAuth();
+                    if(authData === undefined || authData === null) {
+                        deferred.reject();
+                    } else {
+                        service.getUserProfile(authData).then(function(rs) {
+                            sessionSvc.userData.tokenExpiry = authData.expires;
+                            sessionSvc.userData.uid = authData.uid;
+                            sessionSvc.userData.fullName = rs.fullName;
+                            sessionSvc.userData.role = rs.role;
+                            sessionSvc.userData.emailAdd = rs.emailAdd;
+                            sessionSvc.userData.isLoggedIn = true;
+                            sessionSvc.saveSession();
+                            startListenAuth();
+                            deferred.resolve(rs);
+                        }, function(err) {
+                            deferred.reject(err);
+                        });
+                    }
+                });
+            } else {
+                if (Math.floor(Date.now() / 1000) < sessionSvc.userData.tokenExpiry) {
+                    startListenAuth();
+                    deferred.resolve();
                 } else {
-                    deferred.reject(); // Is not logged in
+                    deferred.reject();
                 }
-            })
+            }
 
             return deferred.promise;
         }
@@ -121,16 +148,20 @@
                         deferred.reject(error);
                     } else {
                         service.getUserProfile(authData).then(function(rs) {
+                            sessionSvc.userData.tokenExpiry = authData.expires;
                             sessionSvc.userData.uid = authData.uid;
                             sessionSvc.userData.fullName = rs.fullName;
                             sessionSvc.userData.role = rs.role;
                             sessionSvc.userData.emailAdd = rs.emailAdd;
                             sessionSvc.userData.isLoggedIn = true;
                             sessionSvc.saveSession();
+
+                            startListenAuth();
+
                             deferred.resolve(rs);
                         }, function(err) {
                             deferred.reject(err);
-                        })
+                        });
                     }
                 }, {
                     remember: "sessionOnly"
@@ -165,6 +196,26 @@
         }
 
         /* ======================================== Private Methods ======================================== */
+        function startListenAuth() {
+            if(!misc.isListeningToAuth) {
+                misc.isListeningToAuth = true;
+                listenToAuth(watchLoggedInState);
+            }
+        }
+
+        function watchLoggedInState(authData) {
+            if (authData) {
+                console.log("User " + authData.uid + " is logged in with " + authData.provider);
+                sessionSvc.userData.isLoggedIn = true;
+            } else {
+                console.log("User is logged out");
+                stopListenToAuth(function() {});
+                sessionSvc.resetUserData();
+                sessionSvc.clearSession();
+                cmnSvc.goToPage(undefined, undefined, true);
+            }
+        }
+
         function createUserProfile(userData) {
             var deferred = cmnSvc.$q.defer();
 
