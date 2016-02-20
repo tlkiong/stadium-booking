@@ -5,9 +5,9 @@
     angular.module('Core')
         .service('sessionService', sessionService);
 
-    sessionService.$inject = ['$state'];
+    sessionService.$inject = ['dataService', '$state'];
 
-    function sessionService($state) {
+    function sessionService(dataService, $state) {
         var service = this;
         service.resetUserData = resetUserData;
         service.isLoggedIn = isLoggedIn;
@@ -26,6 +26,7 @@
         service.allStates = {}
 
         /* ======================================== Services =============================================== */
+        var dataSvc = dataService;
 
         /* ======================================== Public Methods ========================================= */
         function loadSession() {

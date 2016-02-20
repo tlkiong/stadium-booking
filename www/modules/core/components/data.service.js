@@ -1,12 +1,11 @@
 (function() {
     'use strict';
     angular.module('Core')
-        .controller('dataService', dataService);
+        .service('dataService', dataService);
 
-    dataService.$inject = ['lokijsService', 'commonService'];
+    dataService.$inject = ['lokijsService', '$q'];
 
-    function dataService(lokijsService, commonService) {
-        var cmnSvc = commonService;
+    function dataService(lokijsService, $q) {
         var lokiSvc = lokijsService;
 
 
@@ -15,7 +14,7 @@
             this.database = lokiSvc.getDatabase();
             this.service = lokiSvc;
         };
-        
+
         Service.prototype = {
             saveObj: saveObj,
             deleteObj: deleteObj,
@@ -32,7 +31,7 @@
 
 
         function getSerializeDb() {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             this.service.getSerializedDb().then(function(rs) {
                 deferred.resolve(rs);
@@ -44,7 +43,7 @@
         }
 
         function loadSerializeDb(serializedDb, options) {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             this.service.loadDbFromJSON(serializedDb, options).then(function(rs) {
                 deferred.resolve(rs);
@@ -61,7 +60,7 @@
          * @return {[promise]} [Resolved if ok. Reject if error]
          */
         function saveDatabase() {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
             this.database.then(function(rs) {
                 rs.saveDatabase(function(err) {
                     if (err) {
@@ -85,7 +84,7 @@
          * @return {[promise]}              [A resolved / rejected promise. Rejected will be: 'Duplicated Key']
          */
         function saveObj(object, uniqueColumn) {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             var objectForSaving = {};
             angular.copy(object, objectForSaving);
@@ -132,7 +131,7 @@
         }
 
         function deleteObj(object) {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             this.collection.then(function(rs) {
                 rs.remove(object);
@@ -143,7 +142,7 @@
         }
 
         function deleteObjs(listOfObjs) {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             this.collection.then(function(rs) {
                 rs.removeWhere(function(obj) {
@@ -161,7 +160,7 @@
         }
 
         function getAllObjs() {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             this.collection.then(function(rs) {
                 deferred.resolve(rs.find({}));
@@ -171,7 +170,7 @@
         }
 
         function findObj(query) {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             this.collection.then(function(rs) {
                 var result = rs.find(query);
@@ -187,7 +186,7 @@
         }
 
         function findDateRange(dateStart, dateEnd) {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             this.collection.then(function(rs) {
                 var result = rs.find({ '$and': [{ 'meta.created': { $gt: dateStart } }, { 'meta.created': { $lt: dateEnd } }] });

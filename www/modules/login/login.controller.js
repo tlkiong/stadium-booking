@@ -4,9 +4,9 @@
     angular.module('Login')
         .controller('loginController', loginController);
 
-    loginController.$inject = ['$scope', 'firebaseService', 'commonService', 'sessionService'];
+    loginController.$inject = ['dataService', '$scope', 'firebaseService', 'commonService', 'sessionService'];
 
-    function loginController($scope, firebaseService, commonService, sessionService) {
+    function loginController(dataService, $scope, firebaseService, commonService, sessionService) {
         var vm = this;
         vm.simpleLogin = simpleLogin;
         vm.switchBetweenForgotPasswordNLogin = switchBetweenForgotPasswordNLogin;
@@ -23,6 +23,7 @@
         var sessionSvc = sessionService;
         var fbaseSvc = firebaseService;
         var scope = $scope;
+        var dataSvc = dataService;
 
         /* ======================================== Public Methods ========================================= */
         function retrieveForgotPassword() {

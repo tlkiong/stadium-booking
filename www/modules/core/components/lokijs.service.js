@@ -1,11 +1,11 @@
 (function() {
     'use strict';
     angular.module('Core')
-        .controller('lokijsService', lokijsService);
+        .service('lokijsService', lokijsService);
 
-    lokijsService.$inject = ['commonService'];
+    lokijsService.$inject = ['$q'];
 
-    function lokijsService(commonService) {
+    function lokijsService($q) {
         var service = this;
         service.loadCollection = loadCollection;
         service.deleteDB = deleteDB;
@@ -19,7 +19,6 @@
         var dbName = 'stadium_app';
 
         /* ======================================== Services =============================================== */
-        var cmnSvc = commonService;
 
         /* ======================================== Public Methods ========================================= */
         function loadDbFromJSON(serializedDb, options) {
@@ -38,7 +37,7 @@
         function getSerializedDb() {
             // rs.serialize() will return a JSON format of the entire database
             // which can be used to load into another app
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
             db.then(function(rs) {
                 deferred.resolve(rs.serialize());
@@ -77,9 +76,9 @@
 
         /* ======================================== Private Methods ======================================== */
         function loadDb() {
-            var deferred = cmnSvc.$q.defer();
+            var deferred = $q.defer();
 
-            idbAdapter = new lokiIndexedAdapter(dbName); //only for browser
+            idbAdapter = new LokiIndexedAdapter(dbName); //only for browser
 
             var lokidb = new loki(dbName, {
                 autosave: true,
@@ -88,7 +87,7 @@
             });
 
             lokidb.loadDatabase({}, function() {
-                console.log('Database loaded');
+                // console.log('Database: '+dbName+' loaded');
                 deferred.resolve(lokidb);
             });
 
