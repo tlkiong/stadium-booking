@@ -97,7 +97,7 @@
             processAvailableTimeSlot();
         }
 
-        function toggleView(viewName,toProcessBookingDate) {
+        function toggleView(viewName) {
             if (viewName === 'selectDate') {
                 vm.misc.stage.selectDate = true;
                 vm.misc.stage.selectTime = false;
@@ -107,7 +107,7 @@
                 vm.misc.stage.selectTime = true;
                 vm.misc.stage.payment = false;
 
-                if (vm.misc.toProcessBookingDate || toProcessBookingDate) {
+                if (vm.misc.toProcessBookingDate) {
                     processMyBookingDate();
                 }
             } else if (viewName === 'payment') {
@@ -194,30 +194,46 @@
                 element.forEach(function(element2) {
                     if (element2.isSelected) {
                         // element2.val = date (1-29/30/31)
-                        var tempMyBookingObj = {
-                            dayTimeInEpoch: (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val)).getTime(),
-                            status: 'going',
-                            availableTimeSlotByHour: []
-                        }
-                        for (var i = 8; i < 23; i++) {
-                            var tempTimeInDateObj = (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val, i));
-                            var timeAvailForBooking = true;
-                            if (!(vm.misc.bookings[tempTimeInDateObj.getFullYear()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()] === null) && !(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()] === null) && !(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()] === null)) {
-                                if (!(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === null)) {
-                                    timeAvailForBooking = false;
-                                }
+                        var toAdd = true;
+                        sessionSvc.userData.myBookings.forEach(function(element) {
+                            if(element.dayTimeInEpoch === (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val)).getTime()) {
+                                toAdd = false;
                             }
+                        });
+
+                        if(toAdd) {
+                            var tempMyBookingObj = {
+                                dayTimeInEpoch: (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val)).getTime(),
+                                status: 'going',
+                                availableTimeSlotByHour: []
+                            }
+                            for (var i = 8; i < 23; i++) {
+                                var tempTimeInDateObj = (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val, i));
+                                var timeAvailForBooking = true;
+                                if (!(vm.misc.bookings[tempTimeInDateObj.getFullYear()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()] === null) && !(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()] === null) && !(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()] === null)) {
+                                    if (!(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === null)) {
+                                        timeAvailForBooking = false;
+                                    }
+                                }
 
 
-                            tempMyBookingObj.availableTimeSlotByHour.push({
-                                timeInEpoch: tempTimeInDateObj.getTime(),
-                                isSelected: false,
-                                isAvailForBooking: timeAvailForBooking
-                            });
+                                tempMyBookingObj.availableTimeSlotByHour.push({
+                                    timeInEpoch: tempTimeInDateObj.getTime(),
+                                    isSelected: false,
+                                    isAvailForBooking: timeAvailForBooking
+                                });
 
+                            }
+                            vm.misc.toProcessBookingDate = false;
+                            sessionSvc.userData.myBookings.push(tempMyBookingObj);
                         }
-                        vm.misc.toProcessBookingDate = false;
-                        sessionSvc.userData.myBookings.push(tempMyBookingObj);
+                    } else {
+                        for(var i=0, j=sessionSvc.userData.myBookings.length; i<j; i++) {
+                            if(sessionSvc.userData.myBookings[i].dayTimeInEpoch === (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val)).getTime()) {
+                                sessionSvc.userData.myBookings.splice(i,1);
+                                break;
+                            }
+                        }
                     }
                 });
             });
