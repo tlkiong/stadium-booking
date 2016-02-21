@@ -26,7 +26,8 @@
                 /**
                  * year:
                  *     month:
-                 *         day: counter
+                 *         day: 
+                 *             time: userId
                  */
             }
         };
@@ -45,6 +46,7 @@
         /* ======================================== Public Methods ========================================= */
         function selectTimeSlot(index, parentIndex) {
             vm.misc.userData.myBookings[parentIndex].availableTimeSlotByHour[index].isSelected = !vm.misc.userData.myBookings[parentIndex].availableTimeSlotByHour[index].isSelected;
+            console.log(vm.misc.bookings);
         }
 
         function selectThisDate(index, parentIndex) {
@@ -158,10 +160,17 @@
                             availableTimeSlotByHour: []
                         }
                         for (var i = 8; i < 23; i++) {
+                            var tempTimeInDateObj = (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val, i));
+                            var timeAvailForBooking = true;
+                            if(!(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === null)) {
+                                timeAvailForBooking = false;
+                            }
+                            
+
                             tempMyBookingObj.availableTimeSlotByHour.push({
-                                timeInEpoch: (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val, i)).getTime(),
+                                timeInEpoch: tempTimeInDateObj.getTime(),
                                 isSelected: false,
-                                isAvailForBooking: true
+                                isAvailForBooking: timeAvailForBooking
                             });
                             
                         }
