@@ -11,7 +11,14 @@
 	padding: 1em;
 	text-align: center;
 }
-
+.timeSlotContainer {
+	padding: 1em;
+	justify-content: center;
+	border: 1px solid #000000;
+}
+.dayTimeSlotContainer {
+	margin: 1em 0;
+}
 .calendarViewContainer {
     .monthContainer {
         justify-content: center;

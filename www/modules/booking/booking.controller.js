@@ -11,6 +11,7 @@
         vm.toggleView = toggleView;
         vm.changeMonth = changeMonth;
         vm.selectThisDate = selectThisDate;
+        vm.selectTimeSlot = selectTimeSlot;
 
         /* ======================================== Var ==================================================== */
         vm.misc = {
@@ -42,6 +43,10 @@
         var fbaseSvc = firebaseService;
 
         /* ======================================== Public Methods ========================================= */
+        function selectTimeSlot(index, parentIndex) {
+            vm.misc.userData.myBookings[parentIndex].availableTimeSlotByHour[index].isSelected = !vm.misc.userData.myBookings[parentIndex].availableTimeSlotByHour[index].isSelected;
+        }
+
         function selectThisDate(index, parentIndex) {
             vm.misc.toProcessBookingDate = true;
             if (!vm.calendar.dateList[parentIndex][index].isFull && vm.calendar.dateList[parentIndex][index].val != '-') {
@@ -81,6 +86,7 @@
 
                 if (vm.misc.toProcessBookingDate) {
                     processMyBookingDate();
+                    console.log
                 }
             } else if (viewName === 'payment') {
                 vm.misc.stage.selectDate = false;
@@ -145,14 +151,26 @@
             vm.calendar.dateList.forEach(function(element) {
                 element.forEach(function(element2) {
                     if (element2.isSelected) {
-
-                        sessionSvc.userData.myBookings.push({
+                        // element2.val = date (1-29/30/31)
+                        var tempMyBookingObj = {
                             dayTimeInEpoch: (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val)).getTime(),
-                            status: 'going'
-                        })
+                            status: 'going',
+                            availableTimeSlotByHour: []
+                        }
+                        for (var i = 8; i < 23; i++) {
+                            tempMyBookingObj.availableTimeSlotByHour.push({
+                                timeInEpoch: (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val, i)).getTime(),
+                                isSelected: false,
+                                isAvailForBooking: true
+                            });
+                            
+                        }
+                        sessionSvc.userData.myBookings.push(tempMyBookingObj);
                     }
                 });
             });
+
+            console.log()
         }
 
         function processDate(givenDate) {
@@ -215,9 +233,9 @@
 
             for (var i = 8; i < 23; i++) {
                 vm.misc.availableTimeSlotByHour[i] = {
-                    userId: '',
-                    createdAt: -1,
-                    updatedAt: -1
+                    timeInEpoch: 0,
+                    isSelected: false,
+                    isAvailForBooking: true
                 }
             }
 
