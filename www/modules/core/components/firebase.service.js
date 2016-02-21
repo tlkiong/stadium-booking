@@ -20,6 +20,8 @@
         service.stopListenToAuth = stopListenToAuth;
         service.getMyBookings = getMyBookings;
         service.listenToBookings = listenToBookings;
+        service.stopListenToBookings = stopListenToBookings;
+        service.placeBooking = placeBooking;
 
         /* ======================================== Var ==================================================== */
         var firebaseUrl = 'https://stadium-booking.firebaseio.com/';
@@ -32,12 +34,50 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
+        function placeBooking(uid, bookingList) {
+            var errorList = [];
+            bookingList.forEach(function(element) {
+                getFirebaseRef('users/' + uid + '/myBookings').then(function(rs) {
+                    rs.push({
+                        dayTime: element.dayTime,
+                        createdAt: Date.now(),
+                        updatedAt: Date.now(),
+                        status: 'going'
+                    }, function(error) {
+                        if (error) {
+                            errorList.push({
+                                dayTime: error
+                            })
+                        } else {
+
+                        }
+                    });
+                });
+                var d = new Date(1454468400000);
+                var d2 = new Date(d.getFullYear(), d.getMonth(), d.getDate())
+                getFirebaseRef('bookings/' + d2.getTime().toString() + '/' + d.getTime()).then(function(rs) {
+                    rs.set({
+                        createdAt: Date.now(),
+                        updatedAt: Date.now(),
+                        userId: uid
+                    })
+                })
+            });
+        }
+
+        function stopListenToBookings() {
+            getFirebaseRef('bookings').then(function(rs){
+                rs.off();
+            });
+        }
+
         function listenToBookings() {
             return getFirebaseRef('bookings');
         }
 
         function getMyBookings(uid) {
             var deferred = cmnSvc.$q.defer();
+
             getFirebaseRef('users/' + uid + '/myBookings').then(function(rs) {
                 rs.once('value', function(snap) {
                     deferred.resolve(snap.val());

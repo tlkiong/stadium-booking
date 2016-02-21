@@ -12,6 +12,7 @@
         vm.changeMonth = changeMonth;
         vm.selectThisDate = selectThisDate;
         vm.selectTimeSlot = selectTimeSlot;
+        vm.placeBooking = placeBooking;
 
         /* ======================================== Var ==================================================== */
         vm.misc = {
@@ -44,6 +45,16 @@
         var fbaseSvc = firebaseService;
 
         /* ======================================== Public Methods ========================================= */
+        function placeBooking() {
+            fbaseSvc.stopListenToBookings();
+            var tempConfirmedBookings = [];
+            angular.copy(vm.misc.userData.myConfirmBookings, tempConfirmedBookings);
+            fbaseSvc.placeBooking(vm.misc.userData.uid, tempConfirmedBookings);
+            angular.copy([], vm.misc.userData.myConfirmBookings);
+            angular.copy([], vm.misc.userData.myBookings);
+            cmnSvc.goToPage('profile', true);
+        }
+
         function selectTimeSlot(index, parentIndex) {
             vm.misc.userData.myBookings[parentIndex].availableTimeSlotByHour[index].isSelected = !vm.misc.userData.myBookings[parentIndex].availableTimeSlotByHour[index].isSelected;
         }
@@ -102,12 +113,9 @@
             angular.copy([], sessionSvc.userData.myConfirmBookings);
             sessionSvc.userData.myBookings.forEach(function(element) {
                 element.availableTimeSlotByHour.forEach(function(element2) {
-                    if(element2.isSelected) {
+                    if (element2.isSelected) {
                         var tempBookingobj = {};
                         tempBookingobj['dayTime'] = element2.timeInEpoch;
-                        tempBookingobj['createdAt'] = Date.now();
-                        tempBookingobj['updatedAt'] = Date.now();
-                        tempBookingobj['status'] = 'going';
                         sessionSvc.userData.myConfirmBookings.push(tempBookingobj);
                     }
                 });
@@ -181,21 +189,19 @@
                         for (var i = 8; i < 23; i++) {
                             var tempTimeInDateObj = (new Date(vm.calendar.currentMonthYear.getFullYear(), vm.calendar.currentMonthYear.getMonth(), element2.val, i));
                             var timeAvailForBooking = true;
-                            if(!(vm.misc.bookings[tempTimeInDateObj.getFullYear()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()] === null)
-                                && !(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()] === null)
-                                && !(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()] === null)) {
-                                if(!(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === null)) {
+                            if (!(vm.misc.bookings[tempTimeInDateObj.getFullYear()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()] === null) && !(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()] === null) && !(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()] === null)) {
+                                if (!(vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === undefined || vm.misc.bookings[tempTimeInDateObj.getFullYear()][tempTimeInDateObj.getMonth()][tempTimeInDateObj.getDate()][tempTimeInDateObj.getTime()] === null)) {
                                     timeAvailForBooking = false;
                                 }
                             }
-                            
+
 
                             tempMyBookingObj.availableTimeSlotByHour.push({
                                 timeInEpoch: tempTimeInDateObj.getTime(),
                                 isSelected: false,
                                 isAvailForBooking: timeAvailForBooking
                             });
-                            
+
                         }
                         sessionSvc.userData.myBookings.push(tempMyBookingObj);
                     }
@@ -258,6 +264,7 @@
 
         function init() {
             vm.misc.userData = sessionSvc.userData;
+            console.log(sessionSvc.userData);
             toggleView('selectDate');
             getMonthDate();
 
