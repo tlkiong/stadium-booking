@@ -59,6 +59,9 @@
         width: calc(100%/7);
         border: 1px solid #000000;
         padding: 1em;
+        &.clickable:hover {
+            background-color: #FFFF00;
+        }
         .dateVal {
             text-align: right;
             margin-bottom: 0.25em;
@@ -89,6 +92,9 @@
         opacity: 0.5;
         color: #FFFFFF;
         cursor: auto;
+        &.clickable:hover {
+            background-color: #000000;
+        }
     }
     @media all and (max-width: 850px) and (min-width: 640px) {
         .calendarViewContainer {
