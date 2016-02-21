@@ -55,7 +55,16 @@
         <h3 class="flexExpand alignCenter">3. Confirm Your Booking</h3>
         <button ng-click="vm.placeBooking()">Done!</button>
     </div>
-    <div ng-show="vm.misc.userData.myBookings === undefined || vm.misc.userData.myBookings === null || vm.misc.userData.myBookings.length === 0">
+    <div ng-show="vm.misc.userData.myConfirmBookings === undefined || vm.misc.userData.myConfirmBookings === null || vm.misc.userData.myConfirmBookings.length === 0">
         <h3 class="specialMsg">Please Select A Booking Date And Time Slot First</h3>
+    </div>
+    <div ng-show="vm.misc.userData.myConfirmBookings.length > 0">
+        <h3 class="specialMsg">Please Ensure Your Booking Date Time Slot Is Correct Before Proceeding</h3>
+        <div class="flexDown">
+            <div class="myConfirmBookingContainer flowAcross" ng-repeat="confirmBooking in vm.misc.userData.myConfirmBookings">
+                <strong class="strongLbl">Booking {{$index + 1}}:</strong>
+                <span class="normalLbl">{{confirmBooking.dayTime | date:'MMMM d, y: EEEE - hh:mm a'}}</span>
+            </div>
+        </div>
     </div>
 </section>
