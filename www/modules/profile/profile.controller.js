@@ -4,14 +4,16 @@
     angular.module('Profile')
         .controller('profileController', profileController);
 
-    profileController.$inject = ['firebaseService', 'commonService', 'sessionService'];
+    profileController.$inject = ['$scope', 'firebaseService', 'commonService', 'sessionService'];
 
-    function profileController(firebaseService, commonService, sessionService) {
+    function profileController($scope, firebaseService, commonService, sessionService) {
         var vm = this;
+        vm.cancelBooking = cancelBooking;
 
         /* ======================================== Var ==================================================== */
         vm.misc = {
-            userData: {}
+            userData: {},
+            myBookingListFromFbaseIsNotEmpty: false
         };
 
         /* ======================================== Services =============================================== */
@@ -20,16 +22,28 @@
         var fbaseSvc = firebaseService;
 
         /* ======================================== Public Methods ========================================= */
-        
+        function cancelBooking(key) {
+            fbaseSvc.cancelMyBooking(vm.misc.userData.uid, key).then(function(rs){
+                getMyBookingList();
+            }, function(err){
+                alert(err);
+                console.log('Error in cancel booking: ',err);
+            });
+        }
 
         /* ======================================== Private Methods ======================================== */
-        function init() {
-            vm.misc.userData = sessionSvc.userData;
+        function getMyBookingList() {
             fbaseSvc.getMyBookings(vm.misc.userData.uid).then(function(rs){
-                vm.misc.userData.myBookings = rs;
+                vm.misc.userData.myBookingListFromFbase = rs;
+                vm.misc.myBookingListFromFbaseIsNotEmpty = !cmnSvc.isEmpty(vm.misc.userData.myBookingListFromFbase);
             }, function(err){
 
             });
+        }
+
+        function init() {
+            vm.misc.userData = sessionSvc.userData;
+            getMyBookingList();
         }
 
         init();

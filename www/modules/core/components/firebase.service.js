@@ -22,6 +22,7 @@
         service.listenToBookings = listenToBookings;
         service.stopListenToBookings = stopListenToBookings;
         service.placeBooking = placeBooking;
+        service.cancelMyBooking = cancelMyBooking;
 
         /* ======================================== Var ==================================================== */
         var firebaseUrl = 'https://stadium-booking.firebaseio.com/';
@@ -34,6 +35,24 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
+        function cancelMyBooking(uid, bookingKey) {
+            var deferred = cmnSvc.$q.defer();
+
+            getFirebaseRef('users/' + uid + '/myBookings/' + bookingKey).then(function(rs) {
+                rs.update({
+                    'status': 'cancel'
+                }, function(err){
+                    if(err) {
+                        deferred.reject(err);
+                    } else {
+                        deferred.resolve();
+                    }
+                });
+            });
+
+            return deferred.promise;
+        }
+
         function placeBooking(uid, bookingList) {
             var errorList = [];
             bookingList.forEach(function(element) {
@@ -66,7 +85,7 @@
         }
 
         function stopListenToBookings() {
-            getFirebaseRef('bookings').then(function(rs){
+            getFirebaseRef('bookings').then(function(rs) {
                 rs.off();
             });
         }

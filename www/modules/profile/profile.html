@@ -4,14 +4,18 @@
     <span>Email Address: {{::vm.misc.userData.emailAdd}}</span>
 </section>
 <hr>
-<section class="bookingListContainer flexDown" ng-if="vm.misc.userData.myBookings.length > 0">
+<section class="bookingListContainer flexDown" ng-if="vm.misc.myBookingListFromFbaseIsNotEmpty">
     <h1>My Bookings</h1>
-    <div class="card" ng-repeat="booking in vm.misc.userData.myBookings">
-        <div class="card-divider">
-            {{::booking.dateTime | date: 'fullDate'}}
+    <div class="card" ng-repeat="(key, value) in vm.misc.userData.myBookingListFromFbase" ng-class="{'primary':value.status == 'went', 'success': value.status == 'going', 'alert': value.status == 'cancel'}">
+        <div class="card-divider flowAcross">
+            <span class="flexExpand">{{::value.dayTime | date: 'EEEE, MMMM d, y - hh:mm a'}}</span>
+            <button ng-click="vm.cancelBooking(key)">Cancel Booking</button>
         </div>
         <div class="card-section flexDown">
-            <p>{{::}}</p>
+            <div class="flowAcross">
+                <span class="strongLbl">Status:</span>
+                <span class="normalLbl" style="text-transform: capitalize;">{{::value.status}}</span>
+            </div>
         </div>
     </div>
 </section>
