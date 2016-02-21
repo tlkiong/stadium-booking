@@ -133,8 +133,7 @@
                         if (!(vm.misc.bookings[currentYear][currentMonth][element2.val] === undefined || vm.misc.bookings[currentYear][currentMonth][element2.val] === null)) {
                             for (var key in vm.misc.bookings[currentYear][currentMonth][element2.val]) {
                                 if (vm.misc.bookings[currentYear][currentMonth][element2.val].hasOwnProperty(key) 
-                                    && (vm.misc.bookings[currentYear][currentMonth][element2.val] != '') 
-                                    && ((new Date(Date.now())).getDate() > element2.val)) {
+                                    && (vm.misc.bookings[currentYear][currentMonth][element2.val] != '')) {
                                     counter += 1;
                                 }
                             }
@@ -218,7 +217,7 @@
             for (var i = 0, j = totalColumns; i < j; i++) {
                 var canBook = false;
 
-                if((new Date(Date.now())).getDate() <= dateCounter) {
+                if((new Date(Date.now())).getDate() < dateCounter) {
                     canBook = true;
                 }
 
