@@ -41,7 +41,7 @@
         <h3 class="specialMsg">Please Select A Booking Date First</h3>
     </div>
     <div ng-show="vm.misc.userData.myBookings.length > 0">
-        <div class="flexDown dayTimeSlotContainer" ng-repeat="booking in vm.misc.userData.myBookings" ng-init="sectionIndex = $index">
+        <div class="flexDown dayTimeSlotContainer" ng-repeat="booking in vm.misc.userData.myBookings | orderBy:'dayTimeInEpoch':false" ng-init="sectionIndex = $index">
             <strong>{{$index + 1}}. {{booking.dayTimeInEpoch | date: 'fullDate'}}</strong>
             <div class="flowAcross">
                 <div class="timeSlotContainer clickable" ng-repeat="timeAvail in booking.availableTimeSlotByHour" ng-if="timeAvail.isAvailForBooking" ng-click="vm.selectTimeSlot($index,sectionIndex)" ng-class="{'isSelected':timeAvail.isSelected}">{{timeAvail.timeInEpoch | date:'shortTime'}}</div>
