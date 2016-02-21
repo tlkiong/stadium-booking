@@ -1,0 +1,47 @@
+<h1>Place Your Bookings</h1>
+<section class="stageContainer flowAcross">
+    <div class="clickable disabled" ng-class="{'enabled': vm.misc.stage.selectDate}" ng-click="vm.toggleView('selectDate')">1. Select Your Date</div>
+    <div class="clickable disabled" ng-class="{'enabled': vm.misc.stage.selectTime}" ng-click="vm.toggleView('selectTime')">2. Select Your Time Slot</div>
+    <div class="clickable disabled" ng-class="{'enabled': vm.misc.stage.payment}" ng-click="vm.toggleView('payment')">3. Payment / Confirmation</div>
+</section>
+<section ng-show="vm.misc.stage.selectDate">
+    <div class="flowAcross">
+        <h3 class="flexExpand">1. Select Your Booking Date</h3>
+        <button ng-click="vm.toggleView('selectTime')">> Select Your Time Slot</button>
+    </div>
+    <div class="calendarViewContainer flexDown">
+        <div class="monthContainer flexAcross">
+            <div class="clickable monthArrow" ng-click="vm.changeMonth('prev')"><</div>
+            <div class="monthLbl">{{vm.calendar.currentMonthYear | date: 'MMMM, yyyy'}}</div>
+            <div class="clickable monthArrow" ng-click="vm.changeMonth('next')">></div>
+        </div>
+        <div class="rowContainer flexAcross calendarHeader">
+            <div class="columnContainer" ng-repeat="day in vm.calendar.header">
+                {{day}}
+            </div>
+        </div>
+        <div class="rowContainer flexAcross" ng-repeat="dateObj in vm.calendar.dateList">
+            <div class="columnContainer clickable flexDown" ng-repeat="day in dateObj" ng-class="{'isSelected': day.isSelected, 'isFull': day.isFull, 'disabledDay':day.val == '-'}" ng-click="vm.selectThisDate($index,$parent.$index)">
+                <span class="dateVal">{{day.val}}</span>
+                <div class="availSlotContainer" ng-if="day.val != '-'">
+                    <span class="availSlotLbl">Available Slot:</span>
+                    <span class="availSlot">{{day.availSlot}}/13</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section ng-show="vm.misc.stage.selectTime">
+    <div class="flowAcross">
+        <button ng-click="vm.toggleView('selectDate')">< Select Your Booking Date</button>
+        <h3 class="flexExpand alignCenter">2. Select Your Time Slot</h3>
+        <button ng-click="vm.toggleView('payment')">> Confirm Your Booking</button>
+    </div>
+</section>
+<section ng-show="vm.misc.stage.payment">
+    <div class="flowAcross">
+        <button ng-click="vm.toggleView('selectTime')">< Select Your Time Slot</button>
+        <h3 class="flexExpand alignCenter">3. Confirm Your Booking</h3>
+        <button ng-click="vm.placeBooking()">Done!</button>
+    </div>
+</section>

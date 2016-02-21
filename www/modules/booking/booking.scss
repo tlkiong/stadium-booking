@@ -1,0 +1,85 @@
+.stageContainer {
+    justify-content: space-between;
+    padding: 1em;
+}
+
+.alignCenter {
+    text-align: center;
+}
+
+.calendarViewContainer {
+    .monthContainer {
+        justify-content: center;
+        background-color: #D3D3D3;
+        border: 1px solid #000000;
+        padding: 0.5em;
+        .monthArrow {
+            border: 1px solid #000000;
+            background-color: #FFFFFF;
+            padding: 0.5em 1em;
+        }
+        .monthLbl {
+            margin: 0 1em;
+            padding: 0.5em 1em;
+            text-transform: uppercase;
+        }
+    }
+    .calendarHeader {
+        width: 100%;
+        .columnContainer {
+            text-transform: capitalize;
+            font-weight: bold;
+            text-align: center;
+            padding: 0.5em 1em;
+            background-color: #D3D3D3;
+        }
+    }
+    .columnContainer {
+        width: calc(100%/7);
+        border: 1px solid #000000;
+        padding: 1em;
+        .dateVal {
+            text-align: right;
+            margin-bottom: 0.25em;
+        }
+        .availSlotContainer {
+            border-top: 1px dotted #000000;
+            padding-top: 0.25em;
+            font-size: 0.7em;
+            text-align: left;
+            .availSlotLbl {
+                margin-right: 0.1em;
+            }
+            .availSlot {
+                font-weight: bold;
+                font-size: 1.2em;
+            }
+        }
+    }
+    .isSelected {
+        background-color: #FFFF00;
+    }
+    .isFull {
+        background-color: #FF0000;
+    }
+    .disabledDay {
+        background-color: #000000;
+        opacity: 0.5;
+        color: #FFFFFF;
+    }
+    @media all and (max-width: 850px) and (min-width: 640px) {
+        .calendarViewContainer {
+            font-size: 12px;
+        }
+    }
+    @media all and (max-width: 640px) and (min-width: 550px) {
+        .calendarViewContainer {
+            font-size: 10px;
+        }
+    }
+    @media all and (max-width: 550px) and (min-width: 0px) {
+        .calendarViewContainer {
+            font-size: 8px;
+        }
+    }
+}

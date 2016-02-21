@@ -6,7 +6,8 @@
             'Directives',
             'Root',
             'Login',
-            'Profile'
+            'Profile',
+            'Booking'
         ])
         .config(function($locationProvider, $stateProvider, $urlRouterProvider, $compileProvider) {
             $urlRouterProvider.otherwise('login');
