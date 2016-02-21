@@ -216,7 +216,7 @@
             var tempObj = {};
             vm.calendar.dateList = [];
             for (var i = 0, j = totalColumns; i < j; i++) {
-                var canBook = true;
+                var canBook = false;
 
                 if((new Date(Date.now())).getDate() <= dateCounter) {
                     canBook = true;
