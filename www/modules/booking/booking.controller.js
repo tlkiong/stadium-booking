@@ -122,15 +122,17 @@
 
         }
 
-        function processAvailableTimeSlot() {
+        function processAvailableTimeSlot(fromFirebase) {
             var currentMonth = (new Date(vm.calendar.currentMonthYear)).getMonth().toString();
             var currentYear = (new Date(vm.calendar.currentMonthYear)).getFullYear().toString();
             var counter = 0;
 
             vm.calendar.dateList.forEach(function(element1) {
                 element1.forEach(function(element2) {
-                    if (element2 != '-') {
-                        if (!(vm.misc.bookings[currentYear][currentMonth][element2.val] === undefined || vm.misc.bookings[currentYear][currentMonth][element2.val] === null)) {
+                    if (element2.val != '-') {
+                        if (!(vm.misc.bookings[currentYear] === undefined || vm.misc.bookings[currentYear] === null) &&
+                            !(vm.misc.bookings[currentYear][currentMonth] === undefined || vm.misc.bookings[currentYear][currentMonth] === null) &&
+                            !(vm.misc.bookings[currentYear][currentMonth][element2.val] === undefined || vm.misc.bookings[currentYear][currentMonth][element2.val] === null)) {
                             for (var key in vm.misc.bookings[currentYear][currentMonth][element2.val]) {
                                 if (vm.misc.bookings[currentYear][currentMonth][element2.val].hasOwnProperty(key) 
                                     && (vm.misc.bookings[currentYear][currentMonth][element2.val] != '')) {
@@ -146,7 +148,9 @@
                 });
             });
 
-            $scope.$apply();
+            if(fromFirebase) {
+                $scope.$apply();
+            }
         }
 
         function processBookingDateTime(day, listOfTimeObj) {
@@ -168,7 +172,7 @@
                 }
             }
 
-            processAvailableTimeSlot();
+            processAvailableTimeSlot(true);
         }
 
         function processMyBookingDate() {
@@ -216,8 +220,16 @@
             vm.calendar.dateList = [];
             for (var i = 0, j = totalColumns; i < j; i++) {
                 var canBook = false;
-
-                if((new Date(Date.now())).getDate() < dateCounter) {
+                
+                if((Number(vm.calendar.currentMonthYear.getFullYear() == Number((new Date(Date.now())).getFullYear())))
+                    &&(Number(vm.calendar.currentMonthYear.getMonth()) == Number((new Date(Date.now())).getMonth()))) {
+                    
+                    if((new Date(Date.now())).getDate() < dateCounter) {
+                        canBook = true;
+                    }
+                } else if((Number(vm.calendar.currentMonthYear.getFullYear() >= Number((new Date(Date.now())).getFullYear())))
+                    &&(Number(vm.calendar.currentMonthYear.getMonth()) > Number((new Date(Date.now())).getMonth()))) {
+                    
                     canBook = true;
                 }
 
