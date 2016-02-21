@@ -132,7 +132,9 @@
                     if (element2 != '-') {
                         if (!(vm.misc.bookings[currentYear][currentMonth][element2.val] === undefined || vm.misc.bookings[currentYear][currentMonth][element2.val] === null)) {
                             for (var key in vm.misc.bookings[currentYear][currentMonth][element2.val]) {
-                                if (vm.misc.bookings[currentYear][currentMonth][element2.val].hasOwnProperty(key) && (vm.misc.bookings[currentYear][currentMonth][element2.val] != '')) {
+                                if (vm.misc.bookings[currentYear][currentMonth][element2.val].hasOwnProperty(key) 
+                                    && (vm.misc.bookings[currentYear][currentMonth][element2.val] != '') 
+                                    && ((new Date(Date.now())).getDate() > element2.val)) {
                                     counter += 1;
                                 }
                             }
@@ -214,8 +216,15 @@
             var tempObj = {};
             vm.calendar.dateList = [];
             for (var i = 0, j = totalColumns; i < j; i++) {
+                var canBook = true;
+
+                if((new Date(Date.now())).getDate() <= dateCounter) {
+                    canBook = true;
+                }
+
                 if (i >= givenDate.firstDay.getDay()) {
                     tempObj = {
+                        canBook: canBook,
                         val: dateCounter,
                         isSelected: false,
                         isFull: false,
@@ -226,6 +235,7 @@
                     dateCounter++;
                 } else {
                     tempObj = {
+                        canBook: canBook,
                         val: '-',
                         isSelected: false,
                         isFull: false,
@@ -264,13 +274,13 @@
             toggleView('selectDate');
             getMonthDate();
 
-            for (var i = 8; i < 23; i++) {
-                vm.misc.availableTimeSlotByHour[i] = {
-                    timeInEpoch: 0,
-                    isSelected: false,
-                    isAvailForBooking: true
-                }
-            }
+            // for (var i = 8; i < 23; i++) {
+            //     vm.misc.availableTimeSlotByHour[i] = {
+            //         timeInEpoch: 0,
+            //         isSelected: false,
+            //         isAvailForBooking: true
+            //     }
+            // }
 
             fbaseSvc.listenToBookings().then(function(rs) {
                 // When anyone add a new time slot, this will be called

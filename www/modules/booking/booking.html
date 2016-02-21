@@ -21,7 +21,7 @@
             </div>
         </div>
         <div class="rowContainer flexAcross" ng-repeat="dateObj in vm.calendar.dateList">
-            <div class="columnContainer clickable flexDown" ng-repeat="day in dateObj" ng-class="{'isSelected': day.isSelected, 'isFull': day.isFull, 'disabledDay':day.val == '-'}" ng-click="vm.selectThisDate($index,$parent.$index)">
+            <div class="columnContainer clickable flexDown" ng-repeat="day in dateObj" ng-class="{'isSelected': day.isSelected, 'isFull': day.isFull, 'disabledDay':day.val == '-', 'disabledDay': !day.canBook}" ng-click="vm.selectThisDate($index,$parent.$index)">
                 <span class="dateVal">{{day.val}}</span>
                 <div class="availSlotContainer" ng-if="day.val != '-'">
                     <span class="availSlotLbl">Available Slot:</span>
