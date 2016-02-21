@@ -36,7 +36,18 @@
         vm.calendar = {
             currentMonthYear: 0,
             header: ['sun', 'mon', 'tues', 'wed', 'thurs', 'fri', 'sat'],
-            dateList: []
+            dateList: [
+                /**
+                * {
+                *     canBook: true / false,
+                *     val: '-',
+                *     isSelected: false,
+                *     isFull: false,
+                *     slotBooked: 0,
+                *     totalSlotAvail: 13
+                * }
+                */
+            ]
         }
 
         /* ======================================== Services =============================================== */
@@ -86,7 +97,7 @@
             processAvailableTimeSlot();
         }
 
-        function toggleView(viewName) {
+        function toggleView(viewName,toProcessBookingDate) {
             if (viewName === 'selectDate') {
                 vm.misc.stage.selectDate = true;
                 vm.misc.stage.selectTime = false;
@@ -96,7 +107,7 @@
                 vm.misc.stage.selectTime = true;
                 vm.misc.stage.payment = false;
 
-                if (vm.misc.toProcessBookingDate) {
+                if (vm.misc.toProcessBookingDate || toProcessBookingDate) {
                     processMyBookingDate();
                 }
             } else if (viewName === 'payment') {
@@ -134,8 +145,7 @@
                             !(vm.misc.bookings[currentYear][currentMonth] === undefined || vm.misc.bookings[currentYear][currentMonth] === null) &&
                             !(vm.misc.bookings[currentYear][currentMonth][element2.val] === undefined || vm.misc.bookings[currentYear][currentMonth][element2.val] === null)) {
                             for (var key in vm.misc.bookings[currentYear][currentMonth][element2.val]) {
-                                if (vm.misc.bookings[currentYear][currentMonth][element2.val].hasOwnProperty(key) 
-                                    && (vm.misc.bookings[currentYear][currentMonth][element2.val] != '')) {
+                                if (vm.misc.bookings[currentYear][currentMonth][element2.val].hasOwnProperty(key) && (vm.misc.bookings[currentYear][currentMonth][element2.val] != '')) {
                                     counter += 1;
                                 }
                             }
@@ -148,7 +158,7 @@
                 });
             });
 
-            if(fromFirebase) {
+            if (fromFirebase) {
                 $scope.$apply();
             }
         }
@@ -179,6 +189,7 @@
             if (vm.misc.userData.myBookings === undefined || vm.misc.userData.myBookings === null) {
                 sessionSvc.userData.myBookings = [];
             }
+
             vm.calendar.dateList.forEach(function(element) {
                 element.forEach(function(element2) {
                     if (element2.isSelected) {
@@ -205,6 +216,7 @@
                             });
 
                         }
+                        vm.misc.toProcessBookingDate = false;
                         sessionSvc.userData.myBookings.push(tempMyBookingObj);
                     }
                 });
@@ -220,16 +232,14 @@
             vm.calendar.dateList = [];
             for (var i = 0, j = totalColumns; i < j; i++) {
                 var canBook = false;
-                
-                if((Number(vm.calendar.currentMonthYear.getFullYear() == Number((new Date(Date.now())).getFullYear())))
-                    &&(Number(vm.calendar.currentMonthYear.getMonth()) == Number((new Date(Date.now())).getMonth()))) {
-                    
-                    if((new Date(Date.now())).getDate() < dateCounter) {
+
+                if ((Number(vm.calendar.currentMonthYear.getFullYear() == Number((new Date(Date.now())).getFullYear()))) && (Number(vm.calendar.currentMonthYear.getMonth()) == Number((new Date(Date.now())).getMonth()))) {
+
+                    if ((new Date(Date.now())).getDate() < dateCounter) {
                         canBook = true;
                     }
-                } else if((Number(vm.calendar.currentMonthYear.getFullYear() >= Number((new Date(Date.now())).getFullYear())))
-                    &&(Number(vm.calendar.currentMonthYear.getMonth()) > Number((new Date(Date.now())).getMonth()))) {
-                    
+                } else if ((Number(vm.calendar.currentMonthYear.getFullYear() >= Number((new Date(Date.now())).getFullYear()))) && (Number(vm.calendar.currentMonthYear.getMonth()) > Number((new Date(Date.now())).getMonth()))) {
+
                     canBook = true;
                 }
 
