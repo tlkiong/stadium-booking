@@ -25,7 +25,7 @@
                 <span class="dateVal">{{day.val}}</span>
                 <div class="availSlotContainer" ng-if="day.val != '-'">
                     <span class="availSlotLbl">Available Slot:</span>
-                    <span class="availSlot">{{day.availSlot}}/13</span>
+                    <span class="availSlot">{{day.slotBooked}}/13</span>
                 </div>
             </div>
         </div>
@@ -37,11 +37,17 @@
         <h3 class="flexExpand alignCenter">2. Select Your Time Slot</h3>
         <button ng-click="vm.toggleView('payment')">> Confirm Your Booking</button>
     </div>
+    <div ng-show="vm.misc.userData.myBookings === undefined || vm.misc.userData.myBookings === null || vm.misc.userData.myBookings.length === 0">
+        <h3 class="specialMsg">Please Select A Booking Date First</h3>
+    </div>
 </section>
 <section ng-show="vm.misc.stage.payment">
     <div class="flowAcross">
         <button ng-click="vm.toggleView('selectTime')">< Select Your Time Slot</button>
         <h3 class="flexExpand alignCenter">3. Confirm Your Booking</h3>
         <button ng-click="vm.placeBooking()">Done!</button>
+    </div>
+    <div ng-show="vm.misc.userData.myBookings === undefined || vm.misc.userData.myBookings === null || vm.misc.userData.myBookings.length === 0">
+        <h3 class="specialMsg">Please Select A Booking Date And Time Slot First</h3>
     </div>
 </section>

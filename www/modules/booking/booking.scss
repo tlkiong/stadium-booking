@@ -7,6 +7,11 @@
     text-align: center;
 }
 
+.specialMsg {
+	padding: 1em;
+	text-align: center;
+}
+
 .calendarViewContainer {
     .monthContainer {
         justify-content: center;
@@ -48,6 +53,7 @@
             font-size: 0.7em;
             text-align: left;
             .availSlotLbl {
+            	font-size: 0.8em;
                 margin-right: 0.1em;
             }
             .availSlot {

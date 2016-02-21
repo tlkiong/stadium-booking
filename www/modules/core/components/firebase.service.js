@@ -19,6 +19,7 @@
         service.listenToAuth = listenToAuth;
         service.stopListenToAuth = stopListenToAuth;
         service.getMyBookings = getMyBookings;
+        service.listenToBookings = listenToBookings;
 
         /* ======================================== Var ==================================================== */
         var firebaseUrl = 'https://stadium-booking.firebaseio.com/';
@@ -31,12 +32,16 @@
         var sessionSvc = sessionService;
 
         /* ======================================== Public Methods ========================================= */
+        function listenToBookings() {
+            return getFirebaseRef('bookings');
+        }
+
         function getMyBookings(uid) {
             var deferred = cmnSvc.$q.defer();
-            getFirebaseRef('users/' + uid+'/myBookings').then(function(rs) {
+            getFirebaseRef('users/' + uid + '/myBookings').then(function(rs) {
                 rs.once('value', function(snap) {
                     deferred.resolve(snap.val());
-                }, function (err){
+                }, function(err) {
                     deferred.reject(err);
                 });
             });
@@ -46,7 +51,7 @@
 
         function stopListenToAuth(callBackFn) {
             getFirebaseRef().then(function(rs) {
-                if(misc.isListeningToAuth) {
+                if (misc.isListeningToAuth) {
                     misc.isListeningToAuth = false;
                 }
                 rs.offAuth(callBackFn);
@@ -95,7 +100,7 @@
             if (sessionSvc.userData.tokenExpiry === undefined || sessionSvc.userData.tokenExpiry === null) {
                 getFirebaseRef().then(function(rs) {
                     var authData = rs.getAuth();
-                    if(authData === undefined || authData === null) {
+                    if (authData === undefined || authData === null) {
                         deferred.reject();
                     } else {
                         service.getUserProfile(authData).then(function(rs) {
@@ -211,7 +216,7 @@
 
         /* ======================================== Private Methods ======================================== */
         function startListenAuth() {
-            if(!misc.isListeningToAuth) {
+            if (!misc.isListeningToAuth) {
                 misc.isListeningToAuth = true;
                 listenToAuth(watchLoggedInState);
             }
