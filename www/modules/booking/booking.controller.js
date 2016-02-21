@@ -98,7 +98,6 @@
 
                 if (vm.misc.toProcessBookingDate) {
                     processMyBookingDate();
-                    console.log
                 }
             } else if (viewName === 'payment') {
                 vm.misc.stage.selectDate = false;
@@ -121,8 +120,6 @@
                 });
             });
 
-            console.log(sessionSvc.userData.myConfirmBookings);
-            console.log(vm.misc.userData);
         }
 
         function processAvailableTimeSlot() {
@@ -264,7 +261,6 @@
 
         function init() {
             vm.misc.userData = sessionSvc.userData;
-            console.log(sessionSvc.userData);
             toggleView('selectDate');
             getMonthDate();
 

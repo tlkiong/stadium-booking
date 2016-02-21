@@ -1,6 +1,6 @@
 (function() {
     'use strict';
-    
+
     angular.module('Profile')
         .controller('profileController', profileController);
 
@@ -23,20 +23,31 @@
 
         /* ======================================== Public Methods ========================================= */
         function cancelBooking(key) {
-            fbaseSvc.cancelMyBooking(vm.misc.userData.uid, key).then(function(rs){
+            fbaseSvc.cancelMyBooking(vm.misc.userData.uid, key).then(function(rs) {
+                angular.copy([],sessionSvc.userData.myBookingListFromFbase);
                 getMyBookingList();
-            }, function(err){
+            }, function(err) {
                 alert(err);
-                console.log('Error in cancel booking: ',err);
+                console.log('Error in cancel booking: ', err);
             });
         }
 
         /* ======================================== Private Methods ======================================== */
         function getMyBookingList() {
-            fbaseSvc.getMyBookings(vm.misc.userData.uid).then(function(rs){
-                vm.misc.userData.myBookingListFromFbase = rs;
+            fbaseSvc.getMyBookings(vm.misc.userData.uid).then(function(rs) {
+                for (var key in rs) {
+                    if (rs.hasOwnProperty(key)) {
+                        sessionSvc.userData.myBookingListFromFbase.push({
+                            key: key,
+                            createdAt: rs[key].createdAt,
+                            status: rs[key].status,
+                            updatedAt: rs[key].updatedAt,
+                            dayTime: rs[key].dayTime
+                        })
+                    }
+                }
                 vm.misc.myBookingListFromFbaseIsNotEmpty = !cmnSvc.isEmpty(vm.misc.userData.myBookingListFromFbase);
-            }, function(err){
+            }, function(err) {
 
             });
         }

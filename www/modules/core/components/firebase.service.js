@@ -72,7 +72,7 @@
                         }
                     });
                 });
-                var d = new Date(1454468400000);
+                var d = new Date(element.dayTime);
                 var d2 = new Date(d.getFullYear(), d.getMonth(), d.getDate())
                 getFirebaseRef('bookings/' + d2.getTime().toString() + '/' + d.getTime()).then(function(rs) {
                     rs.set({
@@ -98,7 +98,7 @@
             var deferred = cmnSvc.$q.defer();
 
             getFirebaseRef('users/' + uid + '/myBookings').then(function(rs) {
-                rs.once('value', function(snap) {
+                rs.orderByChild('dayTime').once('value', function(snap) {
                     deferred.resolve(snap.val());
                 }, function(err) {
                     deferred.reject(err);

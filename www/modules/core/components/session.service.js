@@ -18,7 +18,7 @@
         service.userData = {
             myBookings: [],
             myConfirmBookings: [],
-            myBookingListFromFbase: {},
+            myBookingListFromFbase: [],
             tokenExpiry: -1,
             uid: '',
             fullName: '',
