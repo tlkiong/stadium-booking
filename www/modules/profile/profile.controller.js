@@ -33,6 +33,11 @@
         }
 
         /* ======================================== Private Methods ======================================== */
+        // Update Booking status to went for those that is not 'cancel' for before this hour
+        function updateBookingStatus() {
+
+        }
+
         function getMyBookingList() {
             fbaseSvc.getMyBookings(vm.misc.userData.uid).then(function(rs) {
                 for (var key in rs) {
@@ -43,9 +48,10 @@
                             status: rs[key].status,
                             updatedAt: rs[key].updatedAt,
                             dayTime: rs[key].dayTime
-                        })
+                        });
                     }
                 }
+                updateBookingStatus();
                 vm.misc.myBookingListFromFbaseIsNotEmpty = !cmnSvc.isEmpty(vm.misc.userData.myBookingListFromFbase);
             }, function(err) {
 
