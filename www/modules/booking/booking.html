@@ -25,7 +25,7 @@
                 <span class="dateVal">{{day.val}}</span>
                 <div class="availSlotContainer" ng-if="day.val != '-'">
                     <span class="availSlotLbl">Available Slot:</span>
-                    <span class="availSlot">{{day.slotBooked}}/13</span>
+                    <span class="availSlot">{{day.totalSlotAvail - day.slotBooked}}/13</span>
                 </div>
             </div>
         </div>
