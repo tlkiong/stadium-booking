@@ -17,6 +17,7 @@
         /* ======================================== Var ==================================================== */
         service.userData = {
             myBookings: [],
+            myConfirmBookings: [],
             tokenExpiry: -1,
             uid: '',
             fullName: '',
@@ -31,13 +32,11 @@
 
         /* ======================================== Public Methods ========================================= */
         function loadSession() {
-            service.userData = {
-                tokenExpiry: localStorage.getItem('userData.tokenExpiry'),
-                uid: localStorage.getItem('userData.uid'),
-                fullName: localStorage.getItem('userData.fullName'),
-                role: localStorage.getItem('userData.role'),
-                emailAdd: localStorage.getItem('userData.emailAdd')
-            };
+            service.userData.tokenExpiry = localStorage.getItem('userData.tokenExpiry');
+            service.userData.uid = localStorage.getItem('userData.uid');
+            service.userData.fullName = localStorage.getItem('userData.fullName');
+            service.userData.role = localStorage.getItem('userData.role');
+            service.userData.emailAdd = localStorage.getItem('userData.emailAdd');
 
             if (Math.floor(Date.now() / 1000) < service.userData.tokenExpiry) {
                 service.userData.isLoggedIn = true;
@@ -62,8 +61,10 @@
 
         function resetUserData() {
             var originalUserData = {
-                uid: '',
+                myBookings: [],
+                myConfirmBookings: [],
                 tokenExpiry: -1,
+                uid: '',
                 fullName: '',
                 role: '',
                 emailAdd: '',
