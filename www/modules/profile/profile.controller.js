@@ -24,7 +24,6 @@
         /* ======================================== Public Methods ========================================= */
         function cancelBooking(key) {
             fbaseSvc.cancelMyBooking(vm.misc.userData.uid, key).then(function(rs) {
-                angular.copy([],sessionSvc.userData.myBookingListFromFbase);
                 getMyBookingList();
             }, function(err) {
                 alert(err);
@@ -39,6 +38,7 @@
         }
 
         function getMyBookingList() {
+            angular.copy([],sessionSvc.userData.myBookingListFromFbase);
             fbaseSvc.getMyBookings(vm.misc.userData.uid).then(function(rs) {
                 for (var key in rs) {
                     if (rs.hasOwnProperty(key)) {
